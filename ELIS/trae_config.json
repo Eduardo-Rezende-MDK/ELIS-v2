@@ -1,0 +1,42 @@
+{
+  "project": {
+    "name": "ELIS-v2",
+    "version": "2.0",
+    "description": "Projeto ELIS versão 2 desenvolvido em Python"
+  },
+  "language": {
+    "primary": "python",
+    "version": "3.8+",
+    "interpreter": "python"
+  },
+  "editor": {
+    "name": "Trae IDE",
+    "settings": {
+      "tab_size": 4,
+      "insert_spaces": true,
+      "auto_save": true,
+      "word_wrap": true
+    }
+  },
+  "python": {
+    "formatting": {
+      "style_guide": "PEP 8",
+      "line_length": 88,
+      "formatter": "black"
+    },
+    "linting": {
+      "enabled": true,
+      "linter": "flake8"
+    },
+    "environment": {
+      "virtual_env": true,
+      "requirements_file": "requirements.txt"
+    }
+  },
+  "development": {
+    "debug_mode": true,
+    "auto_reload": true,
+    "show_line_numbers": true,
+    "highlight_syntax": true
+  }
+}
