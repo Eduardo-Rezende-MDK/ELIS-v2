@@ -95,6 +95,23 @@ ELIS-v2/
 - ✅ `config.ini` com configurações atualizadas
 - ✅ Este arquivo de andamento atualizado
 
+**6. VERSIONAMENTO GIT/GITHUB:**
+- ✅ Repositório Git inicializado
+- ✅ Usuário Git configurado (Eduardo Rezende)
+- ✅ README.md criado
+- ✅ Primeiro commit realizado
+- ✅ Branch renomeada para `main`
+- ✅ Repositório remoto adicionado: https://github.com/Eduardo-Rezende-MDK/ELIS-v2.git
+- ✅ Push inicial com README
+- ✅ Todos os arquivos do projeto adicionados e commitados
+- ✅ Push final com projeto completo (13 arquivos, ~19.69 KiB)
+
+### 🔗 REPOSITÓRIO GITHUB:
+**URL**: https://github.com/Eduardo-Rezende-MDK/ELIS-v2.git
+**Status**: ✅ Ativo e sincronizado
+**Branch Principal**: `main`
+**Commits**: 2 commits realizados
+
 ### 📁 Arquivos Históricos Criados:
 
 1. **`sistema_ia1_ia2.py`** - Sistema completo demonstrativo
