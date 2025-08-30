@@ -112,6 +112,15 @@ ELIS-v2/
 **Branch Principal**: `main`
 **Commits**: 2 commits realizados
 
+## Problemas Identificados para Próxima Sessão
+
+### Violação das Regras de Formato de Resposta
+- **Problema**: Sistema gerou respostas com emojis (✅, 📝) violando as regras do ai_rules_context.md
+- **Regra violada**: "Sem emojis ou ícones: Respostas devem ser puramente textuais"
+- **Exemplo encontrado**: Resposta de commit com múltiplos emojis e formatação visual
+- **Ação necessária**: Ajustar sistema ELIS para garantir cumprimento consistente das regras de formato
+- **Prioridade**: Alta - afeta a qualidade e consistência das respostas
+
 ### 📁 Arquivos Históricos Criados:
 
 1. **`sistema_ia1_ia2.py`** - Sistema completo demonstrativo
