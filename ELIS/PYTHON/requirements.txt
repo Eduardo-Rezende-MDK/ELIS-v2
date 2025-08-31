@@ -1,0 +1,22 @@
+# ELIS - Sistema de Análise e Melhoria de Prompts
+# Dependências Python necessárias
+
+# Configuração e parsing
+configparser>=5.3.0
+
+# Manipulação de arquivos e sistema
+os-sys>=1.0.0  # Biblioteca padrão, não precisa instalar
+pathlib>=1.0.0  # Biblioteca padrão, não precisa instalar
+
+# Logging e debugging
+logging>=0.4.9.6  # Biblioteca padrão, não precisa instalar
+
+# Data e tempo
+datetime>=4.3  # Biblioteca padrão, não precisa instalar
+
+# Regex e processamento de texto
+re>=2.2.1  # Biblioteca padrão, não precisa instalar
+
+# Nota: A maioria das dependências são bibliotecas padrão do Python
+# Este arquivo serve como documentação das dependências utilizadas
+# Para futuras expansões, adicione aqui as novas dependências externas

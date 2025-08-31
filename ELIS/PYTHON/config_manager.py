@@ -22,7 +22,7 @@ class ConfigManager:
     Carrega e fornece acesso às configurações definidas no arquivo config.ini.
     """
     
-    def __init__(self, config_path: str = "config.ini"):
+    def __init__(self, config_path: str = "../../config.ini"):
         """
         Inicializa o gerenciador de configurações.
         
