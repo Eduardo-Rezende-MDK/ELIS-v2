@@ -1,0 +1,54 @@
+produtos
+precos
+img_produto
+DUAL_produtos
+
+
+
+vamos pegar uma amostra de 20 produtos na DUAL_produtos (ja sabemos que os produtos aqui estao em pares)
+vamos usar a amostra em produtos (ja sabemos q o id_super = 131)
+queremos saber se existe duplicados e qtas copias cada 1 tem
+a analize com muito ruido
+vamos usar a amostra em produtos (ja sabemos q o id_super = 131)!!para de incluir outros id super na analize, nao é sobre os outros e apenas o 131
+traz as duplicadas dos 20, sao identicas , ou tem diferenças?
+
+
+produtos e produtos_para_dual tem a extrutura identicas
+preciso de uma query que seleciona em DUAL_produtos, a coluna id_produto sem duplicados
+uso esse id para coletar oss dados em produtos
+e faço o insert em produtos_para_dual
+quero somente a query , e nao que execute no banco
+
+agora vamos percorrer todos produtos_para_dual
+procurar na tabela produtos todos id que tem 
+produtos.codigo_barras = produtos_para_dual.codigo_barras
+id_super = 131 ou 131131
+se existir, vamos salvar os id assim id1,id2,id3
+na coluna produtos_para_dual.duplicados
+
+agora vamos percorrer todos produtos_para_dual
+vamos procurar em dinamica_ia_ajuste.id_produto pelos produtos_para_dual.duplicados, mudei a regra salva todos encontrado por  assim id1,id2,id3
+e salvar o id da dinamica_ia_ajuste em produtos_para_dual.id_ia_ajuste
+
+mesma regra agora usando a tbl img_produto, o campo para updade id_img
+
+
+produtos_para_dual
+dinamica_ia_ajuste
+essas tabelas tem uma amarração produtos_para_dual.id_ia_ajuste = dinamica_ia_ajuste.id
+precisomos atualizar o dinamica_ia_ajuste.id_produto e dinamica_ia_ajuste.ref = 1
+
+
+dinamica_ia_ajuste
+somente os ref = 1
+o titulo sempre acaba com - numero
+esse numero deve ser o id_produto
+
+UPDATE dinamica_ia_ajuste
+SET titulo = CONCAT(
+    SUBSTRING_INDEX(titulo, ' - ', 1),
+    ' - ',
+    id_produto
+)
+WHERE ref = 1
+AND titulo NOT LIKE CONCAT('% - ', id_produto);
