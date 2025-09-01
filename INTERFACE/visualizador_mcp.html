@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visualizador MCP - get_IA_rule() | ELIS v2</title>
+    <title>Visualizador MCP - iarules() | ELIS v2</title>
     <style>
         * {
             margin: 0;
@@ -230,8 +230,8 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🚀 Visualizador MCP - get_IA_rule()</h1>
-            <p>Sistema de Regras Dinâmicas para Custom Assistants | ELIS v2.0</p>
+            <h1>Visualizador MCP - iarules()</h1>
+            <p>Sistema de Regras Persistentes com Gerenciador Simples | ELIS v2.0</p>
         </div>
 
         <div class="content">
@@ -254,10 +254,10 @@
 
                 <div class="card dynamic">
                     <h3><span class="status-indicator status-success"></span>✅ Contexto Dinâmico (ELIS)</h3>
-                    <p><strong>Solução:</strong> Gerado automaticamente baseado no config.ini</p>
+                    <p><strong>Solução:</strong> Gerado automaticamente pelo gerenciador de regras</p>
                     <div class="code-block">{
   "role": "system",
-  "content": get_IA_rule()  // ✅ DINÂMICO
+  "content": iarules()  // ✅ DINÂMICO
 }</div>
                     <div class="advantages">
                         <h4>🎯 Vantagens:</h4>
@@ -273,90 +273,109 @@
             </div>
 
             <div class="demo-section">
-                <h3>📋 Conteúdo Gerado pela Função get_IA_rule()</h3>
-                <div class="code-block">Você é um assistente de programação especializado no projeto ELIS v2.0.
-
-REGRAS DO PROJETO:
-- Linguagem principal: Python 3.8+
-- Padrão de código: PEP8
-- Documentação: Docstrings em pt-BR
-- Comentários: Português brasileiro
-- IDE: Trae
-- Princípios: Clean Code, Modularidade, Tratamento de erros
-
-FORMATO DE RESPOSTA:
-- Sem emojis ou ícones
-- Máximo 3 parágrafos
-- Objetividade e clareza
-- Foco apenas no solicitado
-
-Sempre siga essas diretrizes ao responder qualquer pergunta ou executar tarefas.</div>
+                <h3>Conteúdo Gerado pela Função iarules()</h3>
+                <div class="code-block">=== REGRAS ATUAIS ===
+1. resposta simples, objetiva e direta, maximo 3 paragrafos
+2. nao usar icones, emojis no codigo gerado e nas respostas. Motivo: causa erros e problemas de sintaxe
+3. Use apenas Python. Nao misture linguagens sem autorizacao. Evite comandos shell/powershell.</div>
             </div>
 
             <div class="api-example">
-                <h4>🔧 Exemplo de Uso com OpenAI API</h4>
-                <div class="code-block">from openai import OpenAI
-from ELIS.PYTHON.mcp_rules import get_IA_rule
+                <h4>Exemplo de Uso com MCP Server</h4>
+                <div class="code-block">from mcp_rules import iarules
 
-# Inicializa o cliente
-client = OpenAI(api_key="SUA_CHAVE_OPENAI_AQUI")
+# Obtém as regras atuais do sistema
+regras_sistema = iarules()
+print(regras_sistema)
 
-# Usa regras dinâmicas do projeto
-response = client.chat.completions.create(
-    model="gpt-4o-mini",
-    messages=[
-        {"role": "system", "content": get_IA_rule()},  # ✅ DINÂMICO
-        {"role": "user", "content": "Crie uma função Python para calcular área"}
-    ],
-    max_tokens=200,
-    temperature=0.7
-)
-
-print(response.choices[0].message.content)</div>
+# Saída:
+# === REGRAS ATUAIS ===
+# 1. resposta simples, objetiva e direta, maximo 3 paragrafos
+# 2. nao usar icones, emojis no codigo gerado e nas respostas
+# 3. Use apenas Python. Nao misture linguagens sem autorizacao</div>
             </div>
 
             <div class="api-example">
-                <h4>📊 Formato JSON Estruturado</h4>
+                <h4>Uso Direto do Gerenciador</h4>
+                <div class="code-block">import sys
+from pathlib import Path
+
+# Adiciona o caminho do gerenciador
+gerenciador_path = Path("FERRAMENTAS/GERENCIADOR_REGRAS")
+sys.path.insert(0, str(gerenciador_path))
+
+# Importa e usa o gerenciador diretamente
+from gerenciador_simples import listar_regras
+
+# Obtém as regras formatadas
+regras = listar_regras()
+print(regras)
+
+# Resultado: String formatada com todas as regras ativas</div>
+            </div>
+
+            <div class="api-example">
+                <h4>Formato JSON Estruturado</h4>
                 <div class="json-output">{
   <span class="json-key">"role"</span>: <span class="json-string">"system"</span>,
-  <span class="json-key">"content"</span>: <span class="json-string">"Você é um assistente de programação especializado no projeto ELIS v2.0.\n\nREGRAS DO PROJETO:\n- Linguagem principal: Python 3.8+\n- Padrão de código: PEP8\n- Documentação: Docstrings em pt-BR\n- Comentários: Português brasileiro\n- IDE: Trae\n- Princípios: Clean Code, Modularidade, Tratamento de erros\n\nFORMATO DE RESPOSTA:\n- Sem emojis ou ícones\n- Máximo 3 parágrafos\n- Objetividade e clareza\n- Foco apenas no solicitado\n\nSempre siga essas diretrizes ao responder qualquer pergunta ou executar tarefas."</span>
+  <span class="json-key">"content"</span>: <span class="json-string">"=== REGRAS ATUAIS ===\n1. resposta simples, objetiva e direta, maximo 3 paragrafos\n2. nao usar icones, emojis no codigo gerado e nas respostas. Motivo: causa erros e problemas de sintaxe\n3. Use apenas Python. Nao misture linguagens sem autorizacao. Evite comandos shell/powershell."</span>
 }</div>
             </div>
 
             <div class="demo-section">
-                <h3>🎯 Como Funciona o Sistema</h3>
-                <div class="code-block">1. 📁 config.ini (Configurações do Projeto)
-   ├── [ELIS] versao = 2.0, nome_sistema = ELIS
-   ├── [DESENVOLVIMENTO] versao_python = 3.8+, padrao_codigo = PEP8
-   └── [CONTEXTO] idioma_padrao = pt-BR, formato_resposta = markdown
+                <h3>Como Funciona o Sistema</h3>
+                <div class="code-block">1. FERRAMENTAS/GERENCIADOR_REGRAS/regras_persistentes.json
+   ├── Arquivo JSON com regras numeradas
+   ├── Persistência automática
+   └── Fácil edição e manutenção
 
-2. 🔧 mcp_rules.py (Função get_IA_rule)
-   ├── Carrega configurações do config.ini
-   ├── Monta contexto dinâmico
-   └── Retorna string formatada
+2. FERRAMENTAS/GERENCIADOR_REGRAS/gerenciador_simples.py
+   ├── Função listar_regras() para leitura
+   ├── Sistema de fallback integrado
+   └── Formatação automática das regras
 
-3. 🚀 Custom Assistant (Trae IDE)
-   ├── Importa get_IA_rule()
-   ├── Usa contexto dinâmico
-   └── Mantém consistência automática</div>
+3. MCP/mcp_rules.py (Função iarules)
+   ├── Importa listar_regras() do gerenciador
+   ├── Retorna regras formatadas
+   └── Fallback para regras básicas
+
+4. MCP Server (Trae IDE)
+   ├── Chama iarules() via MCP
+   ├── Regras sempre atualizadas
+   └── Integração transparente</div>
+            </div>
+
+            <div class="demo-section">
+                <h3>Estrutura de Arquivos ELIS v2.0</h3>
+                <div class="code-block">ELIS-v2/
+├── FERRAMENTAS/
+│   └── GERENCIADOR_REGRAS/
+│       ├── gerenciador_simples.py      # Gerenciador principal
+│       └── regras_persistentes.json    # Armazenamento das regras
+├── MCP/
+│   ├── mcp_rules.py                    # Função iarules()
+│   └── mcp_server_stdio.py             # Servidor MCP
+└── INTERFACE/
+    ├── visualizador_mcp.html           # Esta interface
+    └── visualizador_mcp_streamlit.py   # Interface Streamlit</div>
             </div>
 
             <div class="advantages">
-                <h4>🏆 Benefícios do Sistema MCP get_IA_rule()</h4>
+                <h4>Benefícios do Sistema MCP iarules()</h4>
                 <ul>
-                    <li><strong>Configuração Centralizada:</strong> Todas as regras vêm do config.ini</li>
-                    <li><strong>Atualização Automática:</strong> Mudanças no config refletem imediatamente</li>
-                    <li><strong>Consistência Garantida:</strong> Mesmo contexto em todos os assistants</li>
-                    <li><strong>Fácil Manutenção:</strong> Sem necessidade de alterar código</li>
-                    <li><strong>Reutilização:</strong> Pode ser usado em qualquer custom assistant</li>
-                    <li><strong>Flexibilidade:</strong> Personalizável por projeto</li>
+                    <li><strong>Regras Persistentes:</strong> Armazenadas em arquivo JSON estruturado</li>
+                    <li><strong>Gerenciamento Simples:</strong> Interface clara através do gerenciador_simples</li>
+                    <li><strong>Fallback Integrado:</strong> Sistema robusto com regras de backup</li>
+                    <li><strong>Fácil Manutenção:</strong> Edição direta do arquivo JSON</li>
+                    <li><strong>Integração MCP:</strong> Funciona nativamente com Trae IDE</li>
+                    <li><strong>Modularidade:</strong> Separação clara entre armazenamento e lógica</li>
                 </ul>
             </div>
         </div>
 
         <div class="footer">
-            <p>🎉 <strong>Sistema MCP get_IA_rule() implementado com sucesso!</strong></p>
-            <p>ELIS v2.0 - Sistema de Regras Dinâmicas para Custom Assistants</p>
+            <p><strong>Sistema MCP iarules() implementado com sucesso!</strong></p>
+            <p>ELIS v2.0 - Sistema de Regras Persistentes com Gerenciador Simples</p>
         </div>
     </div>
 </body>

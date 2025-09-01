@@ -1,0 +1,6 @@
+[
+  "resposta simples, objetiva e direta, maximo 3 paragrafos",
+  "nao usar icones, emojis no codigo gerado e nas respostas. Motivo: causa erros e problemas de sintaxe",
+  "Use apenas Python. Nao misture linguagens sem autorizacao. Evite comandos shell/powershell.",
+  "Ao receber solicitacao para criar ferramenta: organize codigo na estrutura FERRAMENTAS/nome-da-ferramenta, mantenha escopo isolado sem dependencias de MCP/INTERFACE/outras ferramentas, implemente apenas funcionalidades solicitadas em versao MVP, consulte usuario antes de adicionar recursos extras ou dados de teste"
+]

@@ -39,4 +39,17 @@ def iarules():
     Returns:
         str: Texto com as regras da IA
     """
-    return "Respostas objetivas, máximo 3 parágrafos, sem emojis ou imagens"
+    import sys
+    import os
+    from pathlib import Path
+    
+    # Adiciona o caminho do gerenciador de regras ao sys.path
+    gerenciador_path = Path(__file__).parent.parent / "FERRAMENTAS" / "GERENCIADOR_REGRAS"
+    sys.path.insert(0, str(gerenciador_path))
+    
+    try:
+        from gerenciador_simples import listar_regras
+        return listar_regras()
+    except ImportError:
+        # Fallback caso não consiga importar
+        return "Respostas objetivas, máximo 3 parágrafos, sem emojis ou imagens"

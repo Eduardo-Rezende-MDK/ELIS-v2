@@ -1,6 +1,6 @@
 # 🎨 INTERFACE - Visualizador MCP ELIS v2
 
-Este diretório contém os arquivos da interface web para visualizar o funcionamento do sistema MCP (Model Context Protocol) e a função `get_IA_rule()`.
+Este diretório contém os arquivos da interface web para visualizar o funcionamento do sistema MCP (Model Context Protocol) e a função `iarules()`.
 
 ## 📁 Estrutura de Arquivos
 
@@ -37,7 +37,7 @@ python servidor_visualizador.py 8080  # Usa porta 8080
 - **✅ Contexto Dinâmico:** Vantagens do sistema ELIS MCP
 
 ### **Demonstrações Práticas**
-- Conteúdo gerado pela função `get_IA_rule()`
+- Conteúdo gerado pela função `iarules()`
 - Exemplo de uso com OpenAI API
 - Formato JSON estruturado
 - Fluxo de funcionamento do sistema
@@ -53,7 +53,7 @@ python servidor_visualizador.py 8080  # Usa porta 8080
 ### **1. Comparação Lado a Lado**
 ```
 ❌ TRADICIONAL                    ✅ ELIS MCP
-"Você é um assistente útil"       get_IA_rule() - Dinâmico
+"Você é um assistente útil"       iarules() - Dinâmico
 • Sem contexto do projeto         • Regras específicas do projeto
 • Respostas inconsistentes        • Consistência garantida
 • Difícil manutenção             • Configuração centralizada
@@ -80,10 +80,10 @@ FORMATO DE RESPOSTA:
 
 ### **3. Exemplo de Integração**
 ```python
-from ELIS.PYTHON.mcp_rules import get_IA_rule
+from mcp_rules import iarules
 
 messages = [
-    {"role": "system", "content": get_IA_rule()},  # ✅ DINÂMICO
+    {"role": "system", "content": iarules()},  # ✅ DINÂMICO
     {"role": "user", "content": "Pergunta do usuário"}
 ]
 ```
@@ -91,8 +91,8 @@ messages = [
 ## 🔧 Requisitos
 
 ### **Arquivos Necessários**
-- `../ELIS/PYTHON/mcp_rules.py` - Função get_IA_rule()
-- `../config.ini` - Configurações do projeto
+- `../MCP/mcp_rules.py` - Função iarules()
+- `../FERRAMENTAS/GERENCIADOR_REGRAS/` - Sistema de regras persistentes
 - `visualizador_mcp.html` - Interface HTML
 
 ### **Python**
@@ -121,7 +121,7 @@ messages = [
 
 ## 🚀 Vantagens do Sistema MCP
 
-1. **Configuração Centralizada** - Todas as regras vêm do config.ini
+1. **Regras Persistentes** - Todas as regras vêm do arquivo JSON
 2. **Atualização Automática** - Mudanças refletem imediatamente
 3. **Consistência Garantida** - Mesmo contexto em todos os assistants
 4. **Fácil Manutenção** - Sem necessidade de alterar código

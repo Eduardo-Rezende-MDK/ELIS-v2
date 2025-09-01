@@ -1,0 +1,25 @@
+{
+  "conexoes": {
+    "local": {
+      "host": "localhost",
+      "port": 3306,
+      "database": "test",
+      "user": "root",
+      "password": ""
+    },
+    "integrafoods": {
+      "host": "mysql.integrafoods.ind.br",
+      "port": 3306,
+      "database": "integrafoodser01",
+      "user": "integrafoodser01",
+      "password": "H9i1p8X247L3e6s4S5"
+    },
+    "desenvolvimento": {
+      "host": "dev-server",
+      "port": 3306,
+      "database": "dev_db",
+      "user": "dev_user",
+      "password": "dev_pass"
+    }
+  }
+}

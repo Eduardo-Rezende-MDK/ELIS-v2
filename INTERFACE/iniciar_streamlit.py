@@ -99,7 +99,7 @@ def main():
     print("• 🚀 Start/Stop do servidor HTML")
     print("• 📊 Dashboard com métricas do sistema")
     print("• ⚙️ Visualização das configurações")
-    print("• 🧪 Teste da função get_IA_rule()")
+    print("• Teste da função iarules()")
     print("• 🌐 Acesso à interface HTML")
     print("• 📱 Interface responsiva e dinâmica")
     
