@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualizador MCP - get_IA_rule() | ELIS v2</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 25px;
+            background: #f8f9fa;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .card.fixed {
+            border-color: #e74c3c;
+        }
+
+        .card.dynamic {
+            border-color: #27ae60;
+        }
+
+        .card h3 {
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .card.fixed h3 {
+            color: #e74c3c;
+        }
+
+        .card.dynamic h3 {
+            color: #27ae60;
+        }
+
+        .code-block {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            margin: 15px 0;
+        }
+
+        .advantages {
+            background: #e8f5e8;
+            border-left: 5px solid #27ae60;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .advantages h4 {
+            color: #27ae60;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .advantages ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .advantages li {
+            margin: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .advantages li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #27ae60;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .demo-section {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+
+        .demo-section h3 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            text-align: center;
+        }
+
+        .api-example {
+            background: #fff;
+            border: 2px solid #3498db;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+
+        .api-example h4 {
+            color: #3498db;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+
+        .json-output {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.5;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+
+        .json-key {
+            color: #9cdcfe;
+        }
+
+        .json-string {
+            color: #ce9178;
+        }
+
+        .json-value {
+            color: #b5cea8;
+        }
+
+        .footer {
+            background: #34495e;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .status-error {
+            background-color: #e74c3c;
+        }
+
+        .status-success {
+            background-color: #27ae60;
+        }
+
+        @media (max-width: 768px) {
+            .comparison {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Visualizador MCP - get_IA_rule()</h1>
+            <p>Sistema de Regras Dinâmicas para Custom Assistants | ELIS v2.0</p>
+        </div>
+
+        <div class="content">
+            <div class="comparison">
+                <div class="card fixed">
+                    <h3><span class="status-indicator status-error"></span>❌ Contexto Fixo (Tradicional)</h3>
+                    <p><strong>Problema:</strong> Texto estático, sem contexto do projeto</p>
+                    <div class="code-block">{
+  "role": "system",
+  "content": "Você é um assistente útil."
+}</div>
+                    <p><strong>Limitações:</strong></p>
+                    <ul>
+                        <li>• Sem regras específicas do projeto</li>
+                        <li>• Não segue padrões de código</li>
+                        <li>• Respostas inconsistentes</li>
+                        <li>• Difícil manutenção</li>
+                    </ul>
+                </div>
+
+                <div class="card dynamic">
+                    <h3><span class="status-indicator status-success"></span>✅ Contexto Dinâmico (ELIS)</h3>
+                    <p><strong>Solução:</strong> Gerado automaticamente baseado no config.ini</p>
+                    <div class="code-block">{
+  "role": "system",
+  "content": get_IA_rule()  // ✅ DINÂMICO
+}</div>
+                    <div class="advantages">
+                        <h4>🎯 Vantagens:</h4>
+                        <ul>
+                            <li>Carrega regras específicas do projeto</li>
+                            <li>Mantém consistência com configurações</li>
+                            <li>Atualiza automaticamente</li>
+                            <li>Inclui diretrizes de formato</li>
+                            <li>Especifica linguagem e padrões</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="demo-section">
+                <h3>📋 Conteúdo Gerado pela Função get_IA_rule()</h3>
+                <div class="code-block">Você é um assistente de programação especializado no projeto ELIS v2.0.
+
+REGRAS DO PROJETO:
+- Linguagem principal: Python 3.8+
+- Padrão de código: PEP8
+- Documentação: Docstrings em pt-BR
+- Comentários: Português brasileiro
+- IDE: Trae
+- Princípios: Clean Code, Modularidade, Tratamento de erros
+
+FORMATO DE RESPOSTA:
+- Sem emojis ou ícones
+- Máximo 3 parágrafos
+- Objetividade e clareza
+- Foco apenas no solicitado
+
+Sempre siga essas diretrizes ao responder qualquer pergunta ou executar tarefas.</div>
+            </div>
+
+            <div class="api-example">
+                <h4>🔧 Exemplo de Uso com OpenAI API</h4>
+                <div class="code-block">from openai import OpenAI
+from ELIS.PYTHON.mcp_rules import get_IA_rule
+
+# Inicializa o cliente
+client = OpenAI(api_key="SUA_CHAVE_OPENAI_AQUI")
+
+# Usa regras dinâmicas do projeto
+response = client.chat.completions.create(
+    model="gpt-4o-mini",
+    messages=[
+        {"role": "system", "content": get_IA_rule()},  # ✅ DINÂMICO
+        {"role": "user", "content": "Crie uma função Python para calcular área"}
+    ],
+    max_tokens=200,
+    temperature=0.7
+)
+
+print(response.choices[0].message.content)</div>
+            </div>
+
+            <div class="api-example">
+                <h4>📊 Formato JSON Estruturado</h4>
+                <div class="json-output">{
+  <span class="json-key">"role"</span>: <span class="json-string">"system"</span>,
+  <span class="json-key">"content"</span>: <span class="json-string">"Você é um assistente de programação especializado no projeto ELIS v2.0.\n\nREGRAS DO PROJETO:\n- Linguagem principal: Python 3.8+\n- Padrão de código: PEP8\n- Documentação: Docstrings em pt-BR\n- Comentários: Português brasileiro\n- IDE: Trae\n- Princípios: Clean Code, Modularidade, Tratamento de erros\n\nFORMATO DE RESPOSTA:\n- Sem emojis ou ícones\n- Máximo 3 parágrafos\n- Objetividade e clareza\n- Foco apenas no solicitado\n\nSempre siga essas diretrizes ao responder qualquer pergunta ou executar tarefas."</span>
+}</div>
+            </div>
+
+            <div class="demo-section">
+                <h3>🎯 Como Funciona o Sistema</h3>
+                <div class="code-block">1. 📁 config.ini (Configurações do Projeto)
+   ├── [ELIS] versao = 2.0, nome_sistema = ELIS
+   ├── [DESENVOLVIMENTO] versao_python = 3.8+, padrao_codigo = PEP8
+   └── [CONTEXTO] idioma_padrao = pt-BR, formato_resposta = markdown
+
+2. 🔧 mcp_rules.py (Função get_IA_rule)
+   ├── Carrega configurações do config.ini
+   ├── Monta contexto dinâmico
+   └── Retorna string formatada
+
+3. 🚀 Custom Assistant (Trae IDE)
+   ├── Importa get_IA_rule()
+   ├── Usa contexto dinâmico
+   └── Mantém consistência automática</div>
+            </div>
+
+            <div class="advantages">
+                <h4>🏆 Benefícios do Sistema MCP get_IA_rule()</h4>
+                <ul>
+                    <li><strong>Configuração Centralizada:</strong> Todas as regras vêm do config.ini</li>
+                    <li><strong>Atualização Automática:</strong> Mudanças no config refletem imediatamente</li>
+                    <li><strong>Consistência Garantida:</strong> Mesmo contexto em todos os assistants</li>
+                    <li><strong>Fácil Manutenção:</strong> Sem necessidade de alterar código</li>
+                    <li><strong>Reutilização:</strong> Pode ser usado em qualquer custom assistant</li>
+                    <li><strong>Flexibilidade:</strong> Personalizável por projeto</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>🎉 <strong>Sistema MCP get_IA_rule() implementado com sucesso!</strong></p>
+            <p>ELIS v2.0 - Sistema de Regras Dinâmicas para Custom Assistants</p>
+        </div>
+    </div>
+</body>
+</html>

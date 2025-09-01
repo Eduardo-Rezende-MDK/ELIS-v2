@@ -1,0 +1,27 @@
+REGRAS DO PROJETO:
+
+- Linguagem: Python
+- Estrutura: INTERFACE (Streamlit) + MCP (servidor)
+- Desenvolvimento: Manter simplicidade
+- Formato de respostas: Objetivas e curtas, máximo 3 parágrafos
+
+ENDEREÇOS DAS PASTAS:
+
+- RAIZ_PROJETO: C:\ELIS\ELIS-v2
+- PASTA_INTERFACE: C:\ELIS\ELIS-v2\INTERFACE
+- PASTA_MCP: C:\ELIS\ELIS-v2\MCP
+- ARQUIVO_REGRAS: C:\ELIS\ELIS-v2\regras.txt
+
+ARQUIVOS PRINCIPAIS:
+
+- Interface Streamlit: INTERFACE\visualizador_mcp_streamlit.py
+- Servidor HTML: INTERFACE\servidor_visualizador.py
+- MCP Rules: MCP\mcp_rules.py
+- HTML Interface: INTERFACE\visualizador_mcp.html
+
+USO DOS CAMINHOS:
+
+- Sempre usar caminhos absolutos
+- Para importar MCP: Path(__file__).parent.parent / "MCP"
+- Para acessar INTERFACE: Path(__file__).parent.parent / "INTERFACE"
+- Verificar existência antes de usar: path.exists()

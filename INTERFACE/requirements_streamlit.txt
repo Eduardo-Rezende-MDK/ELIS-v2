@@ -1,0 +1,4 @@
+# Requisitos para Interface Streamlit MCP - ELIS v2
+streamlit>=1.28.0
+requests>=2.31.0
+psutil>=5.9.0

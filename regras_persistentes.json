@@ -1,0 +1,5 @@
+[
+  "resposta simples, objetiva e direta, maximo 3 paragrafos",
+  "nao usar icones, emojis no codigo gerado e nas respostas. Motivo: causa erros e problemas de sintaxe",
+  "Use apenas Python. Nao misture linguagens sem autorizacao. Evite comandos shell/powershell."
+]

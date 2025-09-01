@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "elis-mcp-server": {
+      "command": "python",
+      "args": [
+        "c:\\ELIS\\ELIS-v2\\MCP\\mcp_server_stdio.py"
+      ],
+      "env": {
+        "PYTHONPATH": "c:\\ELIS\\ELIS-v2\\MCP"
+      }
+    }
+  }
+}
