@@ -1,0 +1,93 @@
+=== DOCUMENTO 1 ===
+Titulo: Divina Comédia
+Fonte: wikipedia
+URL: https://pt.wikipedia.org/wiki/Divina_Comédia
+Autor: 
+Data: 
+Conteudo:
+A Divina Comédia (em italiano:  La Divina Commedia, originalmente Comedìa e, mais tarde, denominada Divina Comédia por Giovanni Boccaccio) é um poema de viés épico e teológico da literatura italiana e mundial, sobre os fundamentos da fé cristã, escrito por Dante Alighieri no século XIV e dividido em três partes: o Inferno, o Purgatório e o Paraíso.
+
+==================================================
+
+=== DOCUMENTO 2 ===
+Titulo: Inferno (Divina Comédia)
+Fonte: wikipedia
+URL: https://pt.wikipedia.org/wiki/Inferno_(Divina_Comédia)
+Autor: 
+Data: 
+Conteudo:
+O Inferno é a primeira parte da "Divina Comédia" de Dante Alighieri, sendo as outras duas o Purgatório e o Paraíso. Está dividido em trinta e três cantos (uma divisão de longas poesias), possuindo um canto a mais que as outras duas partes, que serve de introdução ao poema. A viagem de Dante é uma alegoria através do que é essencialmente o conceito medieval de Inferno, guiada pelo poeta romano Virgílio. No poema, o inferno é descrito com nove círculos de sofrimento localizados dentro da Terra. Foi escrito no início do século XIV. Os mais variados pintores de todos os tempos criaram ilustrações sobre esta obra, se destacando Sandro Botticelli, Gustave Doré e Salvador Dalí.
+
+
+
+==================================================
+
+=== DOCUMENTO 3 ===
+Titulo: Belchior
+Fonte: wikipedia
+URL: https://pt.wikipedia.org/wiki/Belchior
+Autor: 
+Data: 
+Conteudo:
+Antônio Carlos Belchior, mais conhecido como Belchior (Sobral, 26 de outubro de 1946 – Santa Cruz do Sul, 30 de abril de 2017), foi um cantor, poeta, compositor, músico, produtor e artista plástico brasileiro.
+Um dos membros do chamado Pessoal do Ceará, que incluía Fagner, Ednardo, Amelinha e outros, Belchior foi um dos primeiros cantores de MPB do nordeste brasileiro a fazer sucesso internacional, em meados da década de 1970. Durante uma entrevista, ao declarar o seu nome completo - Antônio Carlos Gomes Belchior Fontenelle Fernandes -, Belchior acrescentou, em tom de brincadeira, que seria o "maior nome da MPB". 
+Seu álbum Alucinação, de 1976, produzido por Marco Mazzola, é considerado por vários críticos musicais como um dos mais revolucionários da história da MPB e um dos mais importantes de todos os tempos para a música brasileira.
+Entre os seus maiores sucessos estão Apenas um Rapaz Latino-Americano, Como Nossos Pais, Mucuripe e Divina Comédia Humana.
+Nos últimos anos de vida Belchior supostamente desapareceu por duas vezes, tendo sido afinal encontrado no Uruguai. Onde passou por uma trajetória de momentos difíceis, deixando dívidas, morando de favores e até mesmo dormindo embaixo da ponte.
+O cantor faleceu aos 70 anos vitimado pelo rompimento de um aneurisma na aorta, no dia 30 de abril de 2017, na cidade gaúcha de Santa Cruz do Sul.
+
+==================================================
+
+=== DOCUMENTO 4 ===
+Titulo: Computational Analysis of Gender Depiction in the Comedias of Calderón de la Barca
+Fonte: arxiv
+URL: http://arxiv.org/abs/2411.03895v1
+Autor: Allison Keith, Antonio Rojas Castro, Sebastian Padó
+Data: 2024-11-06
+Conteudo:
+In theatre, playwrights use the portrayal of characters to explore culturally
+based gender norms. In this paper, we develop quantitative methods to study
+gender depiction in the non-religious works (comedias) of Pedro Calder\'on de
+la Barca, a prolific Spanish 17th century author. We gather insights from a
+corpus of more than 100 plays by using a gender classifier and applying model
+explainability (attribution) methods to determine which text features are most
+influential in the model's decision to classify speech as 'male' or 'female',
+indicating the most gendered elements of dialogue in Calder\'on's comedias in a
+human accessible manner. We find that female and male characters are portrayed
+differently and can be identified by the gender prediction model at practically
+useful accuracies (up to f=0.83). Analysis reveals semantic aspects of gender
+portrayal, and demonstrates that the model is even useful in providing a
+relatively accurate scene-by-scene prediction of cross-dressing characters.
+
+==================================================
+
+=== DOCUMENTO 5 ===
+Titulo: De Divino Errore
+Fonte: arxiv
+URL: http://arxiv.org/abs/1311.2858v3
+Autor: Dirk Huylebrouck
+Data: 2013-11-12
+Conteudo:
+'De Divina Proportione' was one of the most widely read mathematical books.
+Yet there is an unmistakable erroneous theorem, which was questioned by
+Dutchman Jos Janssens and confirmed by his compatriot Rinus Roelofs. Did anyone
+ever notice this error?
+
+==================================================
+
+=== DOCUMENTO 6 ===
+Titulo: Observations about Leonardo's drawings for Luca Pacioli
+Fonte: arxiv
+URL: http://arxiv.org/abs/1311.2855v1
+Autor: Dirk Huylebrouck
+Data: 2013-11-12
+Conteudo:
+Three versions of Luca Pacioli's 'De Dvina Proportione' remain: a manuscript
+held in Milan, another in Geneva and a printed version edited in Venice. A
+recent book, 'Antologia della Divina Proporzione', has all three in one volume,
+allowing an easy comparison of the different versions. The present paper
+proposes some observations about these drawings, generally said to be of
+Leonardo da Vinci's hand.
+
+==================================================
+
