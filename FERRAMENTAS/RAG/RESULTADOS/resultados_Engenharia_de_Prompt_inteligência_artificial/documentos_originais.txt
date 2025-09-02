@@ -1,0 +1,36 @@
+=== DOCUMENTO 1 ===
+Título: Engenharia de prompts
+Fonte: wikipedia
+URL: https://pt.wikipedia.org/wiki/Engenharia_de_prompts
+Conteúdo: Engenharia de prompts (em inglês: Prompt Engineering) é uma disciplina emergente no campo da inteligência artificial que se dedica à criação e otimização de instruções, conhecidas como prompts, para orientar modelos de linguagem generativa, como o GPT-3 e GPT-4, a produzirem respostas mais precisas e relevantes. Essa prática envolve a elaboração de comandos claros e contextuais, visando maximizar a eficácia das respostas geradas pelos modelos de IA. 
+Com o avanço dos modelos de IA baseados em ap...
+
+=== DOCUMENTO 2 ===
+Título: Inteligência artificial generativa
+Fonte: wikipedia
+URL: https://pt.wikipedia.org/wiki/Intelig%C3%AAncia_artificial_generativa
+Conteúdo: Inteligência artificial generativa ou IA generativa é um ramo da inteligência artificial focado na criação de conteúdo novo, baseado em padrões identificados nos conjuntos de dados de treinamento. É possível criar conteúdo como texto, imagens, áudio, vídeo, código de software, podendo ser gerados a partir de pedidos (ou prompts) em linguagem natural, ou até através de imagens para imagens, e de vídeos para vídeos. Essa forma de visualizar esses modelos é uma categorização baseado em formato de e...
+
+=== DOCUMENTO 3 ===
+Título: The Burst Failure Influence on the $H_\infty$ Norm
+Fonte: arxiv
+URL: http://arxiv.org/abs/1811.01131v1
+Conteúdo: In this work, we present an analysis of the Burst failure effect in the
+$H_\infty$ norm. We present a procedure to perform an analysis between
+different Markov Chain models and a numerical example. In the numerical example
+the results obtained pointed out that the burst failure effect in the
+performance does not exceed 6.3%. However, this work is an introduction for a
+wider and more extensive analysis in this subject....
+
+=== DOCUMENTO 4 ===
+Título: An Empirically-grounded tool for Automatic Prompt Linting and Repair: A Case Study on Bias, Vulnerability, and Optimization in Developer Prompts
+Fonte: arxiv
+URL: http://arxiv.org/abs/2501.12521v1
+Conteúdo: The tidal wave of advancements in Large Language Models (LLMs) has led to
+their swift integration into application-level logic. Many software systems now
+use prompts to interact with these black-box models, combining natural language
+with dynamic values interpolated at runtime, to perform tasks ranging from
+sentiment analysis to question answering. Due to the programmatic and
+structured natural language aspects of these prompts, we refer to them as
+Developer Prompts. Unlike traditional software ...
+

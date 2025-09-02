@@ -8,7 +8,10 @@ import numpy as np
 from typing import List, Dict, Any, Optional, Tuple
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-from ..models.document import RawDocument, ProcessedChunk
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from models.document import RawDocument, ProcessedChunk
 
 class QualityFilter:
     """Sistema de filtros de qualidade para documentos e chunks"""

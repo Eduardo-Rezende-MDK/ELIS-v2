@@ -1,0 +1,36 @@
+=== DOCUMENTO 1 ===
+Título: Finasterida
+Fonte: wikipedia
+URL: https://pt.wikipedia.org/wiki/Finasterida
+Conteúdo: Finasterida (também conhecido como Proscar, Propecia, Fincar, Finalop, Finpecia, Finax, Finast, Finara, Prosteride) é um medicamento antiandrógeno inibidor da 5-alfarredutase, a enzima que converte a testosterona em di-hidrotestosterona. É usado em  baixas doses para o tratamento da calvície e em altas doses no tratamento da hiperplasia prostática benigna e câncer de próstata....
+
+=== DOCUMENTO 2 ===
+Título: Barbatimão-verdadeiro
+Fonte: wikipedia
+URL: https://pt.wikipedia.org/wiki/Barbatim%C3%A3o-verdadeiro
+Conteúdo: O barbatimão-verdadeiro, ou ainda barba-de-timão, casca-da-virgindade ou apenas barbatimão (Stryphnodendron adstringens, Stryphnodendron barbadetiman(Vell.), Acacia adstringens(Mart.), Mimosa barbadetiman(Vell.), Mimosa virginalis(Arruda) ) é uma espécie de planta pertencente à família Fabaceae, é uma árvore pequena, hermafrodita, decídua, de tronco tortuosos e cada rugosa espessa e de cor clara. As folhas são alternadas, compostas bipinadas com cerca de cinco a oito pares de pinas, os foliólulo...
+
+=== DOCUMENTO 3 ===
+Título: DAY TRADE: across the statistics | DAY TRADE: do outro lado das estatisticas
+Fonte: arxiv
+URL: http://arxiv.org/abs/1912.04274v1
+Conteúdo: This paper questions some current ideas about the practice of specific
+capital market operations - the so-called day trading operations. The text
+advanced from theoretical propositions to a detailed analysis of the study
+entitled "Is it possible to live by day-trading?" (CHAGUE and GIOVANNETTI,
+2019), to which it offers a counterpoint. This investigation reveal the
+existence of important elements that are not yet properly weighed in the
+treatment of the current theme, leading to loss of dimensio...
+
+=== DOCUMENTO 4 ===
+Título: Um Estudo sobre Atividades Participativas para Soluções IoT para o Home care de Pessoas Idosas
+Fonte: arxiv
+URL: http://arxiv.org/abs/2103.01078v1
+Conteúdo: Population aging in Brazil and in the world occurs at the same time of
+advances and evolutions in technology. Thus, opportunities for new solutions
+arise for the elderly, such as innovations in Home Care. With the Internet of
+Things, it is possible to improve the elderly autonomy, safety and quality of
+life. However, the design of IoT solutions for elderly Home Care poses new
+challenges. In this context, this technical report aims to detail activities
+developed as a case study to evaluate the Io...
+

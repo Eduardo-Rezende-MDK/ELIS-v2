@@ -1,0 +1,40 @@
+=== DOCUMENTO 1 ===
+Título: Joaquim Manuel de Macedo
+Fonte: wikipedia
+URL: https://pt.wikipedia.org/wiki/Joaquim_Manuel_de_Macedo
+Conteúdo: Joaquim Manuel de Macedo (Itaboraí, 24 de junho de 1820 — Itaboraí, 11 de abril de 1882) foi um médico, jornalista, escritor, professor, romancista, poeta, literato, teatrólogo, memorialista e político brasileiro.
+É o patrono da cadeira 20 da Academia Brasileira de Letras.
+
+...
+
+=== DOCUMENTO 2 ===
+Título: A Moreninha
+Fonte: wikipedia
+URL: https://pt.wikipedia.org/wiki/A_Moreninha
+Conteúdo: A Moreninha é um romance de autoria do escritor brasileiro Joaquim Manuel de Macedo (1820-1882), publicado em 1844. A obra marca o início da ficção do romantismo brasileiro e tem grande sucesso ainda nos dias de hoje. É considerado o primeiro romance tipicamente nacional, pois retrata hábitos da juventude burguesa carioca do século XIX, contemporânea à época de sua publicação.
+Escrita no mesmo ano em que o autor se forma em medicina, a obra rende-lhe fama de forma tão intensa que o leva a abrir ...
+
+=== DOCUMENTO 3 ===
+Título: Esparsidade, Estrutura, Escalamento e Estabilidade em Algebra Linear Computacional
+Fonte: arxiv
+URL: http://arxiv.org/abs/1107.5342v2
+Conteúdo: Sparsity, Structure, Scaling and Stability in Computational Linear Algebra -
+Textbook from the IX School of Computer Science, held on July 24-31 of 1994 at
+Recife, Brazil.
+  Esparsidade, Estrutura, Escalamento e Estabilidade em Algebra Linear
+Computacional - Livro texto da IX Escola de Computacao, realizada nos dias 24 a
+31 de Julho de 1994 em Recife, Brasil.
+  This textbook is written in Portuguese Language....
+
+=== DOCUMENTO 4 ===
+Título: A basic electro-topological descriptor for the prediction of organic molecule geometries by simple machine learning
+Fonte: arxiv
+URL: http://arxiv.org/abs/2210.10700v1
+Conteúdo: This paper proposes a machine learning (ML) method to predict stable
+molecular geometries from their chemical composition. The method is useful for
+generating molecular conformations which may serve as initial geometries for
+saving time during expensive structure optimizations by quantum mechanical
+calculations of large molecules. Conformations are found by predicting the
+local arrangement around each atom in the molecule after trained from a
+database of previously optimized small molecules. It ...
+

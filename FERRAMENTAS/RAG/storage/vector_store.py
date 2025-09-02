@@ -7,10 +7,15 @@ import faiss
 import numpy as np
 import pickle
 import json
+import sqlite3
 from pathlib import Path
 from typing import List, Dict, Any, Optional, Tuple
 from datetime import datetime
-from ..models.document import ProcessedChunk, SearchResult
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from models.document import ProcessedChunk, SearchResult
+from .sqlite_manager import SQLiteManager
 
 class RAGVectorStore:
     """Sistema de armazenamento vetorial para chunks processados"""
@@ -43,8 +48,7 @@ class RAGVectorStore:
         
         # Inicializar componentes
         self.index = None
-        self.chunks = []  # Lista de chunks armazenados
-        self.chunk_metadata = {}  # Metadados dos chunks por ID
+        self.sqlite_manager = SQLiteManager(str(self.storage_path / "rag_database.db"))
         
         # Estatisticas
         self.stats = {
@@ -82,13 +86,29 @@ class RAGVectorStore:
         return index
     
     def add_chunks(self, chunks: List[ProcessedChunk]) -> bool:
-        """Adiciona chunks ao vector store"""
+        """Adiciona chunks ao vector store híbrido (SQLite + FAISS)"""
         if not chunks:
             return False
         
         try:
-            # Extrair embeddings
-            embeddings = np.array([chunk.embedding for chunk in chunks]).astype('float32')
+            # Filtrar chunks que já existem no SQLite
+            new_chunks = []
+            new_embeddings = []
+            
+            with sqlite3.connect(self.sqlite_manager.db_path) as conn:
+                for chunk in chunks:
+                    cursor = conn.execute("SELECT id FROM chunks WHERE id = ?", (chunk.chunk_id,))
+                    if not cursor.fetchone():
+                        # Chunk não existe, adicionar à lista de novos
+                        new_chunks.append(chunk)
+                        new_embeddings.append(chunk.embedding)
+            
+            if not new_chunks:
+                print("Todos os chunks já existem no banco")
+                return True
+            
+            # Extrair embeddings apenas dos chunks novos
+            embeddings = np.array(new_embeddings).astype('float32')
             
             # Normalizar embeddings para similaridade coseno
             faiss.normalize_L2(embeddings)
@@ -103,25 +123,24 @@ class RAGVectorStore:
                     print(f"Treinando indice IVF com {len(embeddings)} embeddings...")
                     self.index.train(embeddings)
             
-            # Adicionar embeddings ao indice
-            start_id = len(self.chunks)
+            # Obter próximo índice FAISS
+            current_faiss_size = self.index.ntotal
+            
+            # Adicionar embeddings ao indice FAISS
             self.index.add(embeddings)
             
-            # Armazenar chunks e metadados
-            for i, chunk in enumerate(chunks):
-                chunk_id = start_id + i
-                self.chunks.append(chunk)
-                self.chunk_metadata[chunk.chunk_id] = {
-                    'internal_id': chunk_id,
-                    'chunk': chunk,
-                    'added_timestamp': datetime.now().isoformat()
-                }
+            # Armazenar metadados no SQLite
+            for i, chunk in enumerate(new_chunks):
+                faiss_index = current_faiss_size + i
+                
+                # Inserir chunk no SQLite com referência ao índice FAISS
+                self.sqlite_manager.insert_chunk(chunk, faiss_index)
             
             # Atualizar estatisticas
             self._update_stats()
             
-            print(f"Adicionados {len(chunks)} chunks ao vector store")
-            print(f"Total de chunks: {len(self.chunks)}")
+            print(f"Adicionados {len(new_chunks)} chunks ao vector store híbrido")
+            print(f"Total de chunks: {self.index.ntotal}")
             
             return True
             
@@ -131,34 +150,39 @@ class RAGVectorStore:
     
     def search(self, query_embedding: np.ndarray, top_k: int = None, 
               filters: Dict[str, Any] = None) -> List[SearchResult]:
-        """Busca chunks similares usando embedding da query"""
-        if self.index is None or len(self.chunks) == 0:
+        """Busca chunks similares usando embedding da query (SQLite + FAISS)"""
+        if self.index is None or self.index.ntotal == 0:
             return []
         
-        top_k = min(top_k or self.default_top_k, self.max_top_k, len(self.chunks))
+        top_k = min(top_k or self.default_top_k, self.max_top_k, self.index.ntotal)
         
         try:
+            start_time = datetime.now()
+            
             # Normalizar query embedding
             query_embedding = query_embedding.astype('float32').reshape(1, -1)
             faiss.normalize_L2(query_embedding)
             
             # Buscar no indice FAISS
-            scores, indices = self.index.search(query_embedding, top_k)
+            scores, indices = self.index.search(query_embedding, top_k * 2)  # Buscar mais para filtrar
             
             # Converter resultados
             results = []
-            for i, (score, idx) in enumerate(zip(scores[0], indices[0])):
-                if idx == -1:  # FAISS retorna -1 para resultados invalidos
-                    continue
-                    
-                chunk = self.chunks[idx]
-                
-                # Aplicar filtros se especificados
-                if filters and not self._apply_filters(chunk, filters):
+            for i, (score, faiss_idx) in enumerate(zip(scores[0], indices[0])):
+                if faiss_idx == -1:  # FAISS retorna -1 para resultados invalidos
                     continue
                 
                 # Aplicar threshold de similaridade
                 if score < self.similarity_threshold:
+                    continue
+                
+                # Obter chunk do cache ou SQLite
+                chunk = self._get_chunk_by_faiss_index(int(faiss_idx))
+                if not chunk:
+                    continue
+                
+                # Aplicar filtros se especificados
+                if filters and not self._apply_filters_sqlite(filters, chunk):
                     continue
                 
                 # Criar resultado
@@ -166,16 +190,24 @@ class RAGVectorStore:
                     chunk=chunk,
                     score=float(score),
                     query="",  # Query sera definida externamente
-                    rank=i + 1,
+                    rank=len(results) + 1,
                     search_type="semantic",
                     search_metadata={
-                        'faiss_index': int(idx),
+                        'faiss_index': int(faiss_idx),
                         'original_score': float(score),
                         'index_type': self.index_type
                     }
                 )
                 
                 results.append(search_result)
+                
+                # Parar quando atingir top_k
+                if len(results) >= top_k:
+                    break
+            
+            # Registrar busca no SQLite
+            execution_time = (datetime.now() - start_time).total_seconds() * 1000
+            self.sqlite_manager.log_search("", results, execution_time, filters)
             
             # Atualizar estatisticas
             self.stats['search_count'] += 1
@@ -224,8 +256,13 @@ class RAGVectorStore:
         
         return context_chunks
     
-    def _apply_filters(self, chunk: ProcessedChunk, filters: Dict[str, Any]) -> bool:
-        """Aplica filtros a um chunk"""
+    def _get_chunk_by_faiss_index(self, faiss_index: int) -> Optional[ProcessedChunk]:
+        """Obtem chunk pelo índice FAISS diretamente do SQLite"""
+        # Buscar diretamente no SQLite sem cache
+        return self.sqlite_manager.get_chunk_by_faiss_index(faiss_index)
+    
+    def _apply_filters_sqlite(self, filters: Dict[str, Any], chunk: ProcessedChunk) -> bool:
+        """Aplica filtros a um chunk (versão SQLite)"""
         # Filtro por tipo de fonte
         if 'source_type' in filters:
             allowed_sources = filters['source_type']
@@ -365,97 +402,192 @@ class RAGVectorStore:
             return False
     
     def _load_existing_index(self) -> bool:
-        """Carrega indice existente se disponivel"""
+        """Carrega indice FAISS existente e sincroniza com SQLite"""
         try:
             index_file = self.storage_path / "faiss_index.bin"
-            chunks_file = self.storage_path / "chunks.pkl"
-            metadata_file = self.storage_path / "metadata.json"
+            db_file = self.storage_path / "rag_database.db"
             
-            if not all(f.exists() for f in [index_file, chunks_file, metadata_file]):
+            # Verificar se arquivos existem
+            if not index_file.exists():
+                print("Nenhum índice FAISS encontrado")
+                return False
+                
+            if not db_file.exists():
+                print("Nenhum banco SQLite encontrado")
                 return False
             
             # Carregar indice FAISS
             self.index = faiss.read_index(str(index_file))
+            print(f"Índice FAISS carregado: {self.index.ntotal} vetores")
             
-            # Carregar chunks
-            with open(chunks_file, 'rb') as f:
-                self.chunks = pickle.load(f)
+            # Obter estatísticas do SQLite
+            sqlite_stats = self.sqlite_manager.get_statistics()
+            chunks_sqlite = sqlite_stats.get('chunks', {}).get('total', 0)
             
-            # Carregar metadados
-            with open(metadata_file, 'r', encoding='utf-8') as f:
-                data = json.load(f)
+            print(f"Chunks no SQLite: {chunks_sqlite}")
+            
+            # Verificar consistência
+            if self.index.ntotal != chunks_sqlite:
+                print(f"Inconsistência detectada: FAISS({self.index.ntotal}) != SQLite({chunks_sqlite})")
+                print("Tentando sincronizar...")
                 
-                # Reconstruir metadados com objetos chunk
-                self.chunk_metadata = {}
-                for chunk_id, metadata in data.get('chunk_metadata', {}).items():
-                    # Encontrar chunk correspondente
-                    chunk = next((c for c in self.chunks if c.chunk_id == chunk_id), None)
-                    if chunk:
-                        self.chunk_metadata[chunk_id] = {
-                            'internal_id': metadata['internal_id'],
-                            'chunk': chunk,
-                            'added_timestamp': metadata['added_timestamp'],
-                            'removed': metadata.get('removed', False)
-                        }
-                
-                self.stats = data.get('stats', self.stats)
+                # Se SQLite tem mais dados, reconstruir FAISS
+                if chunks_sqlite > self.index.ntotal:
+                    print("Reconstruindo índice FAISS a partir do SQLite...")
+                    return self._rebuild_from_sqlite()
             
-            print(f"Indice carregado: {len(self.chunks)} chunks")
+            # Atualizar estatísticas
+            self._update_stats()
+            
+            print(f"Índice híbrido carregado com sucesso")
             return True
             
         except Exception as e:
-            print(f"Erro ao carregar indice existente: {e}")
+            print(f"Erro ao carregar índice existente: {e}")
+            import traceback
+            traceback.print_exc()
             return False
+    
+    def _rebuild_from_sqlite(self) -> bool:
+        """Reconstrói índice FAISS a partir dos dados do SQLite"""
+        try:
+            print("Reconstruindo FAISS a partir do SQLite...")
+            
+            # Buscar todos os chunks do SQLite
+            chunks = self.sqlite_manager.search_chunks({}, limit=10000)
+            
+            if not chunks:
+                print("Nenhum chunk encontrado no SQLite")
+                return False
+            
+            # Extrair embeddings (assumindo que estão vazios, precisam ser recalculados)
+            print(f"Encontrados {len(chunks)} chunks no SQLite")
+            print("AVISO: Embeddings precisam ser recalculados - índice não será reconstruído")
+            
+            # Por enquanto, apenas limpar o índice inconsistente
+            self.index = None
+            
+            return False  # Forçar recriação do índice
+            
+        except Exception as e:
+            print(f"Erro ao reconstruir índice: {e}")
+            return False
+    
+
     
     def _update_stats(self):
         """Atualiza estatisticas do vector store"""
-        self.stats['total_chunks'] = len(self.chunks)
-        self.stats['total_documents'] = len(set(chunk.document_id for chunk in self.chunks))
+        self.stats['total_chunks'] = self.index.ntotal if self.index else 0
+        self.stats['total_documents'] = 0  # Será obtido do SQLite quando necessário
         self.stats['index_size'] = self.index.ntotal if self.index else 0
         self.stats['last_updated'] = datetime.now().isoformat()
     
     def get_statistics(self) -> Dict[str, Any]:
-        """Obtem estatisticas do vector store"""
-        # Atualizar estatisticas
-        self._update_stats()
-        
-        # Distribuicao por fonte
-        source_distribution = {}
-        for chunk in self.chunks:
-            source_distribution[chunk.source_type] = source_distribution.get(chunk.source_type, 0) + 1
-        
-        # Distribuicao por documento
-        document_distribution = {}
-        for chunk in self.chunks:
-            document_distribution[chunk.document_id] = document_distribution.get(chunk.document_id, 0) + 1
-        
-        # Metricas de qualidade
-        quality_scores = [chunk.quality_score for chunk in self.chunks]
-        embedding_norms = [chunk.embedding_norm for chunk in self.chunks]
-        
-        return {
-            'basic_stats': self.stats,
-            'source_distribution': source_distribution,
-            'document_distribution': document_distribution,
-            'quality_metrics': {
-                'avg_quality_score': np.mean(quality_scores) if quality_scores else 0,
-                'min_quality_score': min(quality_scores) if quality_scores else 0,
-                'max_quality_score': max(quality_scores) if quality_scores else 0,
-                'avg_embedding_norm': np.mean(embedding_norms) if embedding_norms else 0
-            },
-            'index_info': {
+        """Obtem estatisticas do vector store híbrido (SQLite + FAISS)"""
+        try:
+            # Obter estatísticas do SQLite
+            sqlite_stats = self.sqlite_manager.get_statistics()
+            
+            # Estatisticas basicas
+            basic_stats = {
+                'total_chunks': self.index.ntotal if self.index else 0,
+                'total_documents': sqlite_stats.get('documents', {}).get('total', 0),
+                'index_size': self.index.ntotal if self.index else 0,
+                'embedding_dimension': self.embedding_dim,
+                'index_type': self.index_type,
+                'search_count': self.stats['search_count'],
+                'last_updated': self.stats['last_updated']
+            }
+            
+            # Informacoes do indice FAISS
+            index_info = {
                 'type': self.index_type,
                 'dimension': self.embedding_dim,
-                'metric_type': 'inner_product',
-                'total_vectors': self.index.ntotal if self.index else 0
+                'metric_type': 'inner_product' if self.metric_type == faiss.METRIC_INNER_PRODUCT else 'l2',
+                'total_vectors': self.index.ntotal if self.index else 0,
+                'is_trained': self.index.is_trained if self.index else False
             }
-        }
+            
+            if self.index_type == 'ivf' and self.index:
+                index_info.update({
+                    'nlist': self.nlist,
+                    'nprobe': self.nprobe
+                })
+            elif self.index_type == 'hnsw' and self.index:
+                index_info.update({
+                    'hnsw_m': self.hnsw_m,
+                    'hnsw_ef_search': self.hnsw_ef_search
+                })
+            
+            # Combinar estatísticas SQLite com FAISS
+            return {
+                'basic_stats': basic_stats,
+                'source_distribution': sqlite_stats.get('source_distribution', {}),
+                'document_distribution': sqlite_stats.get('chunks', {}),
+                'quality_metrics': {
+                    'avg_quality_score': sqlite_stats.get('chunks', {}).get('avg_quality', 0),
+                    'documents_avg_quality': sqlite_stats.get('documents', {}).get('avg_quality', 0)
+                },
+                'index_info': index_info,
+                'sqlite_stats': sqlite_stats,
+                'search_performance': sqlite_stats.get('search_performance', {})
+            }
+        except Exception as e:
+            print(f"Erro ao obter estatísticas: {e}")
+            # Retornar estatísticas básicas em caso de erro
+            return {
+                'basic_stats': {
+                    'total_chunks': self.index.ntotal if self.index else 0,
+                    'total_documents': 0,
+                    'index_size': self.index.ntotal if self.index else 0,
+                    'embedding_dimension': self.embedding_dim,
+                    'index_type': self.index_type,
+                    'search_count': self.stats['search_count'],
+                    'last_updated': self.stats['last_updated']
+                },
+                'source_distribution': {},
+                'document_distribution': {},
+                'quality_metrics': {},
+                'index_info': {
+                    'type': self.index_type,
+                    'dimension': self.embedding_dim,
+                    'total_vectors': self.index.ntotal if self.index else 0
+                },
+                'sqlite_stats': {},
+                'search_performance': {}
+            }
+    
+    def close(self):
+        """Fecha todas as conexões e libera recursos"""
+        try:
+            # Fechar conexões SQLite
+            if hasattr(self, 'sqlite_manager') and self.sqlite_manager:
+                self.sqlite_manager.close()
+            
+            # Limpar referências
+            self.index = None
+            
+            # Forçar garbage collection
+            import gc
+            gc.collect()
+            
+            print("Vector store fechado")
+        except Exception as e:
+            print(f"Erro ao fechar vector store: {e}")
     
     def clear_all(self):
-        """Limpa todo o conteudo do vector store"""
-        self.index = None
-        self.chunks = []
-        self.chunk_metadata = {}
+        """Limpa todos os dados do vector store"""
+        # Fechar conexões primeiro
+        self.close()
+        
+        # Limpar arquivos
+        for file in self.storage_path.glob("*"):
+            if file.is_file():
+                try:
+                    file.unlink()
+                except:
+                    pass
+        
         self.stats = {
             'total_chunks': 0,
             'total_documents': 0,

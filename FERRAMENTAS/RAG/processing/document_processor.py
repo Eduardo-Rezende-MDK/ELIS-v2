@@ -9,7 +9,10 @@ from typing import List, Dict, Any, Optional, Tuple
 import re
 import nltk
 from nltk.tokenize import sent_tokenize
-from ..models.document import RawDocument, ProcessedChunk
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from models.document import RawDocument, ProcessedChunk
 
 # Download necessario do NLTK
 try:

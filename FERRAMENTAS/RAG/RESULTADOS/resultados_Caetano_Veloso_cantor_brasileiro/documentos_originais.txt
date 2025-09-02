@@ -1,0 +1,33 @@
+=== DOCUMENTO 1 ===
+Título: Caetano Veloso
+Fonte: wikipedia
+URL: https://pt.wikipedia.org/wiki/Caetano_Veloso
+Conteúdo: Caetano Emanuel Viana Teles Veloso OMC (Santo Amaro, 7 de agosto de 1942) é um cantor, músico, produtor, arranjador e escritor brasileiro. Com uma carreira que ultrapassa cinco décadas, Caetano construiu uma obra musical marcada pela releitura e renovação e considerada amplamente como possuidora de grande valor intelectual e poético. Embora desde cedo tivesse aprendido a tocar violão em Salvador, escrito entre os anos de 1960 e 1962 críticas de cinema para o Diário de Notícias e conhecido o trab...
+
+=== DOCUMENTO 2 ===
+Título: Caetano Veloso (álbum de 1968)
+Fonte: wikipedia
+URL: https://pt.wikipedia.org/wiki/Caetano_Veloso_(%C3%A1lbum_de_1968)
+Conteúdo: Caetano Veloso é o segundo álbum de estúdio do cantor e compositor Caetano Veloso, sendo seu primeiro álbum solo, gravado em 1967 e lançado em janeiro de 1968 pela gravadora Philips Records (hoje Universal Music). Teve arranjos de Júlio Medaglia, Damiano Cozzella e Sandino Hohagen.
+A canção "Tropicália", primeira faixa deste álbum, daria nome ao próximo álbum lançado por Caetano. O LP foi eleito em uma lista da revista Rolling Stone Brasil como o 37º melhor disco brasileiro de todos os tempos. E...
+
+=== DOCUMENTO 3 ===
+Título: A Hausdorff-measure boundary element method for acoustic scattering by fractal screens
+Fonte: arxiv
+URL: http://arxiv.org/abs/2212.06594v2
+Conteúdo: Sound-soft fractal screens can scatter acoustic waves even when they have
+zero surface measure. To solve such scattering problems we make what appears to
+be the first application of the boundary element method (BEM) where each BEM
+basis function is supported in a fractal set, and the integration involved in
+the formation of the BEM matrix is with respect to a non-integer order
+Hausdorff measure rather than the usual (Lebesgue) surface measure. Using
+recent results on function spaces on fractals,...
+
+=== DOCUMENTO 4 ===
+Título: Rings of constants of linear derivations on Fermat rings
+Fonte: arxiv
+URL: http://arxiv.org/abs/1802.10578v1
+Conteúdo: In this paper we characterize all the linear $\mathbb{C}$-derivations of the
+Fermat ring. We show that the Fermat ring has linear $\mathbb{C}$-derivations
+with trivial ring of constants and construct some examples....
+
