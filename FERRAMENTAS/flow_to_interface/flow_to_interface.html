@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flow to Interface - ELIS v2</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            text-align: center;
+            color: white;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+        
+        .container {
+            flex: 1;
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+            gap: 20px;
+            padding: 20px;
+        }
+        
+        .sidebar {
+            width: 350px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .sidebar h3 {
+            margin-bottom: 20px;
+            color: #ecf0f1;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+            padding-bottom: 10px;
+        }
+        
+        .upload-area {
+            border: 2px dashed rgba(255, 255, 255, 0.5);
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .upload-area:hover {
+            border-color: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .upload-area.dragover {
+            border-color: #4CAF50;
+            background: rgba(76, 175, 80, 0.2);
+        }
+        
+        .btn {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(45deg, #2196F3, #1976D2);
+        }
+        
+        .flow-info {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .flow-info h4 {
+            margin-bottom: 15px;
+            color: #ecf0f1;
+        }
+        
+        .flow-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .stat-item {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+        }
+        
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #4CAF50;
+        }
+        
+        .main-content {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 0;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .interface-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .interface-content {
+            padding: 40px;
+            min-height: 500px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .page-container {
+            display: none;
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+        }
+        
+        .page-container.active {
+            display: block;
+        }
+        
+        .page-title {
+            font-size: 2.5em;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        
+        .page-subtitle {
+            font-size: 1.2em;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+        }
+        
+        .page-content {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-left: 5px solid #3498db;
+        }
+        
+        .navigation-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .nav-btn {
+            background: linear-gradient(45deg, #3498db, #2980b9);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            min-width: 150px;
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.4);
+        }
+        
+        .nav-btn.process {
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+        }
+        
+        .nav-btn.decision {
+            background: linear-gradient(45deg, #f39c12, #e67e22);
+        }
+        
+        .nav-btn.end {
+            background: linear-gradient(45deg, #27ae60, #229954);
+        }
+        
+        .breadcrumb {
+            background: rgba(52, 152, 219, 0.1);
+            padding: 15px 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            font-weight: 500;
+        }
+        
+        .welcome-message {
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 1.2em;
+            margin-top: 50px;
+        }
+        
+        .page-login {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .page-cadastro {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+        
+        .page-home {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+        }
+        
+        .page-trabalhos {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            color: white;
+        }
+        
+        .page-configuracoes {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            color: white;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #bdc3c7;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+        
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Flow to Interface</h1>
+        <p>Transforme seus diagramas de fluxo em interfaces navegáveis</p>
+    </div>
+    
+    <div class="container">
+        <div class="sidebar">
+            <h3>Carregar Fluxo</h3>
+            
+            <div class="upload-area" id="uploadArea">
+                <p>📁 Arraste o arquivo JSON aqui</p>
+                <p>ou</p>
+                <button class="btn" onclick="selectFile()">Selecionar Arquivo</button>
+                <input type="file" id="fileInput" accept=".json" style="display: none;">
+            </div>
+            
+            <button class="btn btn-secondary" onclick="loadSampleFlow()">Carregar Exemplo</button>
+            <button class="btn btn-secondary" onclick="resetInterface()">Limpar Interface</button>
+            
+            <div class="flow-info" id="flowInfo" style="display: none;">
+                <h4>Informações do Fluxo</h4>
+                <div class="flow-stats">
+                    <div class="stat-item">
+                        <div class="stat-number" id="pageCount">0</div>
+                        <div>Páginas</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="totalNodes">0</div>
+                        <div>Total Nós</div>
+                    </div>
+                </div>
+                
+                <h4 style="margin-top: 20px;">Navegação</h4>
+                <div id="pageList"></div>
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <div class="interface-header">
+                <h2 id="currentPageTitle">Interface Gerada</h2>
+                <div class="breadcrumb" id="breadcrumb" style="display: none;"></div>
+            </div>
+            
+            <div class="interface-content" id="interfaceContent">
+                <div class="welcome-message">
+                    <h3>Bem-vindo ao Flow to Interface!</h3>
+                    <p>Carregue um arquivo JSON do Flow Designer para gerar uma interface navegável.</p>
+                    <p>Você pode usar o arquivo que você criou ou carregar o exemplo.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let flowData = null;
+        let currentPage = null;
+        let navigationHistory = [];
+        
+        // File handling
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+        
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+        
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleFile(files[0]);
+            }
+        });
+        
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                handleFile(e.target.files[0]);
+            }
+        });
+        
+        function selectFile() {
+            fileInput.click();
+        }
+        
+        function handleFile(file) {
+            if (file.type !== 'application/json') {
+                alert('Por favor, selecione um arquivo JSON válido.');
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    loadFlowData(data);
+                } catch (error) {
+                    alert('Erro ao ler o arquivo JSON: ' + error.message);
+                }
+            };
+            reader.readAsText(file);
+        }
+        
+        function loadSampleFlow() {
+            const sampleData = {
+                "nodes": [
+                    {
+                        "id": "node_3",
+                        "type": "page",
+                        "title": "LOGIN",
+                        "subtitle": "Interface",
+                        "x": 100,
+                        "y": 100
+                    },
+                    {
+                        "id": "node_4",
+                        "type": "page",
+                        "title": "CADASTRO",
+                        "subtitle": "Interface",
+                        "x": 300,
+                        "y": 100
+                    },
+                    {
+                        "id": "node_5",
+                        "type": "page",
+                        "title": "HOME",
+                        "subtitle": "Interface",
+                        "x": 500,
+                        "y": 100
+                    },
+                    {
+                        "id": "node_6",
+                        "type": "page",
+                        "title": "BEM VINDO",
+                        "subtitle": "Interface",
+                        "x": 700,
+                        "y": 100
+                    },
+                    {
+                        "id": "node_7",
+                        "type": "page",
+                        "title": "CONFIGURAÇÕES",
+                        "subtitle": "Interface",
+                        "x": 100,
+                        "y": 300
+                    },
+                    {
+                        "id": "node_8",
+                        "type": "page",
+                        "title": "TRABALHOS",
+                        "subtitle": "Interface",
+                        "x": 300,
+                        "y": 300
+                    }
+                ],
+                "connections": [
+                    { "source": "node_3", "target": "node_5" },
+                    { "source": "node_4", "target": "node_5" },
+                    { "source": "node_5", "target": "node_6" },
+                    { "source": "node_5", "target": "node_8" },
+                    { "source": "node_5", "target": "node_7" }
+                ],
+                "metadata": {
+                    "created": "2025-01-09T...",
+                    "nodeCount": 6,
+                    "connectionCount": 5
+                }
+            };
+            
+            loadFlowData(sampleData);
+        }
+        
+        function loadFlowData(data) {
+            flowData = data;
+            
+            // Update stats
+            const pages = data.nodes.filter(node => node.type === 'page');
+            document.getElementById('pageCount').textContent = pages.length;
+            document.getElementById('totalNodes').textContent = data.nodes.length;
+            
+            // Show flow info
+            document.getElementById('flowInfo').style.display = 'block';
+            
+            // Create page list
+            createPageList(pages);
+            
+            // Load first page or show menu
+            if (pages.length > 0) {
+                showPage(pages[0].id);
+            }
+        }
+        
+        function createPageList(pages) {
+            const pageList = document.getElementById('pageList');
+            pageList.innerHTML = '';
+            
+            pages.forEach(page => {
+                const pageBtn = document.createElement('button');
+                pageBtn.className = 'btn';
+                pageBtn.textContent = page.title;
+                pageBtn.onclick = () => showPage(page.id);
+                pageList.appendChild(pageBtn);
+            });
+        }
+        
+        function showPage(pageId) {
+            const page = flowData.nodes.find(node => node.id === pageId);
+            if (!page) return;
+            
+            currentPage = page;
+            navigationHistory.push(pageId);
+            
+            // Update header
+            document.getElementById('currentPageTitle').textContent = page.title;
+            
+            // Update breadcrumb
+            updateBreadcrumb();
+            
+            // Create page content
+            createPageContent(page);
+        }
+        
+        function updateBreadcrumb() {
+            const breadcrumb = document.getElementById('breadcrumb');
+            if (navigationHistory.length > 1) {
+                breadcrumb.style.display = 'block';
+                const path = navigationHistory.map(pageId => {
+                    const page = flowData.nodes.find(node => node.id === pageId);
+                    return page ? page.title : 'Desconhecido';
+                }).join(' → ');
+                breadcrumb.textContent = '📍 ' + path;
+            } else {
+                breadcrumb.style.display = 'none';
+            }
+        }
+        
+        function createPageContent(page) {
+            const content = document.getElementById('interfaceContent');
+            content.innerHTML = '';
+            
+            const pageContainer = document.createElement('div');
+            pageContainer.className = `page-container active page-${page.title.toLowerCase().replace(/[^a-z0-9]/g, '')}`;
+            
+            // Page title and subtitle
+            const title = document.createElement('div');
+            title.className = 'page-title';
+            title.textContent = page.title;
+            
+            const subtitle = document.createElement('div');
+            subtitle.className = 'page-subtitle';
+            subtitle.textContent = page.subtitle || 'Página do sistema';
+            
+            // Page content based on type
+            const pageContent = document.createElement('div');
+            pageContent.className = 'page-content';
+            
+            // Generate content based on page title
+            pageContent.innerHTML = generatePageContent(page.title);
+            
+            // Navigation buttons
+            const navButtons = document.createElement('div');
+            navButtons.className = 'navigation-buttons';
+            
+            // Find connected pages
+            const connections = flowData.connections.filter(conn => conn.source === page.id);
+            
+            connections.forEach(conn => {
+                const targetPage = flowData.nodes.find(node => node.id === conn.target);
+                if (targetPage) {
+                    const btn = document.createElement('button');
+                    btn.className = `nav-btn ${targetPage.type}`;
+                    btn.textContent = `Ir para ${targetPage.title}`;
+                    btn.onclick = () => showPage(targetPage.id);
+                    navButtons.appendChild(btn);
+                }
+            });
+            
+            // Back button
+            if (navigationHistory.length > 1) {
+                const backBtn = document.createElement('button');
+                backBtn.className = 'nav-btn';
+                backBtn.textContent = '← Voltar';
+                backBtn.onclick = goBack;
+                navButtons.appendChild(backBtn);
+            }
+            
+            // Home button
+            const homeBtn = document.createElement('button');
+            homeBtn.className = 'nav-btn';
+            homeBtn.textContent = '🏠 Menu Principal';
+            homeBtn.onclick = showMainMenu;
+            navButtons.appendChild(homeBtn);
+            
+            pageContainer.appendChild(title);
+            pageContainer.appendChild(subtitle);
+            pageContainer.appendChild(pageContent);
+            pageContainer.appendChild(navButtons);
+            
+            content.appendChild(pageContainer);
+        }
+        
+        function generatePageContent(pageTitle) {
+            const title = pageTitle.toLowerCase();
+            
+            if (title.includes('login')) {
+                return `
+                    <div class="form-group">
+                        <label>Email ou Usuário:</label>
+                        <input type="text" placeholder="Digite seu email">
+                    </div>
+                    <div class="form-group">
+                        <label>Senha:</label>
+                        <input type="password" placeholder="Digite sua senha">
+                    </div>
+                    <p>Faça login para acessar sua conta e gerenciar seus trabalhos acadêmicos.</p>
+                `;
+            } else if (title.includes('cadastro')) {
+                return `
+                    <div class="form-group">
+                        <label>Nome Completo:</label>
+                        <input type="text" placeholder="Digite seu nome">
+                    </div>
+                    <div class="form-group">
+                        <label>Email:</label>
+                        <input type="email" placeholder="Digite seu email">
+                    </div>
+                    <div class="form-group">
+                        <label>Senha:</label>
+                        <input type="password" placeholder="Crie uma senha">
+                    </div>
+                    <p>Crie sua conta para começar a usar a plataforma educacional.</p>
+                `;
+            } else if (title.includes('home')) {
+                return `
+                    <h3>Dashboard Principal</h3>
+                    <p>Bem-vindo à sua área de trabalho! Aqui você pode:</p>
+                    <ul style="text-align: left; margin: 20px 0;">
+                        <li>📚 Acessar seus trabalhos</li>
+                        <li>⚙️ Configurar sua conta</li>
+                        <li>📝 Criar novos projetos</li>
+                        <li>📊 Ver estatísticas de progresso</li>
+                    </ul>
+                `;
+            } else if (title.includes('trabalhos')) {
+                return `
+                    <h3>Meus Trabalhos</h3>
+                    <p>Gerencie todos os seus trabalhos acadêmicos:</p>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 20px 0;">
+                        <div style="background: #e8f4fd; padding: 15px; border-radius: 8px;">
+                            <strong>📄 Ensaio de História</strong><br>
+                            <small>Última edição: hoje</small>
+                        </div>
+                        <div style="background: #e8f4fd; padding: 15px; border-radius: 8px;">
+                            <strong>🔬 Relatório de Química</strong><br>
+                            <small>Última edição: ontem</small>
+                        </div>
+                    </div>
+                `;
+            } else if (title.includes('configurações') || title.includes('configuracoes')) {
+                return `
+                    <h3>Configurações da Conta</h3>
+                    <p>Personalize sua experiência na plataforma:</p>
+                    <ul style="text-align: left; margin: 20px 0;">
+                        <li>👤 Editar perfil</li>
+                        <li>🔔 Notificações</li>
+                        <li>🎨 Tema da interface</li>
+                        <li>🔒 Privacidade e segurança</li>
+                        <li>💾 Backup de dados</li>
+                    </ul>
+                `;
+            } else if (title.includes('bem vindo') || title.includes('benvindo')) {
+                return `
+                    <h3>🎉 Bem-vindo à Plataforma!</h3>
+                    <p>Parabéns! Você fez login com sucesso.</p>
+                    <p>Esta é uma plataforma educacional completa para criar e gerenciar seus trabalhos acadêmicos.</p>
+                    <div style="background: #d4edda; padding: 20px; border-radius: 10px; margin: 20px 0; color: #155724;">
+                        <strong>✅ Login realizado com sucesso!</strong><br>
+                        Agora você pode explorar todas as funcionalidades disponíveis.
+                    </div>
+                `;
+            } else {
+                return `
+                    <h3>Página: ${pageTitle}</h3>
+                    <p>Esta é a página <strong>${pageTitle}</strong> do seu sistema.</p>
+                    <p>Conteúdo específico desta seção será desenvolvido conforme as necessidades do projeto.</p>
+                `;
+            }
+        }
+        
+        function goBack() {
+            if (navigationHistory.length > 1) {
+                navigationHistory.pop(); // Remove current page
+                const previousPageId = navigationHistory[navigationHistory.length - 1];
+                navigationHistory.pop(); // Remove it so showPage can add it back
+                showPage(previousPageId);
+            }
+        }
+        
+        function showMainMenu() {
+            const content = document.getElementById('interfaceContent');
+            content.innerHTML = '';
+            
+            const menuContainer = document.createElement('div');
+            menuContainer.className = 'page-container active';
+            
+            const title = document.createElement('div');
+            title.className = 'page-title';
+            title.textContent = 'Menu Principal';
+            
+            const subtitle = document.createElement('div');
+            subtitle.className = 'page-subtitle';
+            subtitle.textContent = 'Selecione uma página para navegar';
+            
+            const menuContent = document.createElement('div');
+            menuContent.className = 'page-content';
+            menuContent.innerHTML = '<p>Escolha uma das opções abaixo para navegar pelo sistema:</p>';
+            
+            const navButtons = document.createElement('div');
+            navButtons.className = 'navigation-buttons';
+            
+            // Create buttons for all pages
+            const pages = flowData.nodes.filter(node => node.type === 'page');
+            pages.forEach(page => {
+                const btn = document.createElement('button');
+                btn.className = 'nav-btn page';
+                btn.textContent = page.title;
+                btn.onclick = () => {
+                    navigationHistory = []; // Reset history
+                    showPage(page.id);
+                };
+                navButtons.appendChild(btn);
+            });
+            
+            menuContainer.appendChild(title);
+            menuContainer.appendChild(subtitle);
+            menuContainer.appendChild(menuContent);
+            menuContainer.appendChild(navButtons);
+            
+            content.appendChild(menuContainer);
+            
+            // Update header
+            document.getElementById('currentPageTitle').textContent = 'Menu Principal';
+            document.getElementById('breadcrumb').style.display = 'none';
+        }
+        
+        function resetInterface() {
+            flowData = null;
+            currentPage = null;
+            navigationHistory = [];
+            
+            document.getElementById('flowInfo').style.display = 'none';
+            document.getElementById('currentPageTitle').textContent = 'Interface Gerada';
+            document.getElementById('breadcrumb').style.display = 'none';
+            
+            const content = document.getElementById('interfaceContent');
+            content.innerHTML = `
+                <div class="welcome-message">
+                    <h3>Bem-vindo ao Flow to Interface!</h3>
+                    <p>Carregue um arquivo JSON do Flow Designer para gerar uma interface navegável.</p>
+                    <p>Você pode usar o arquivo que você criou ou carregar o exemplo.</p>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>

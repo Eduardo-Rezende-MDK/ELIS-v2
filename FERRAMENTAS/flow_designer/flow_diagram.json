@@ -1,0 +1,58 @@
+{
+  "nodes": [
+    {
+      "id": "node_3",
+      "type": "page",
+      "title": "LOGIN",
+      "subtitle": "Interface",
+      "x": 100,
+      "y": 100
+    },
+    {
+      "id": "node_4",
+      "type": "page",
+      "title": "CADASTRO",
+      "subtitle": "Interface",
+      "x": 300,
+      "y": 100
+    },
+    {
+      "id": "node_5",
+      "type": "page",
+      "title": "HOME",
+      "subtitle": "Interface",
+      "x": 500,
+      "y": 100
+    },
+    {
+      "id": "node_6",
+      "type": "page",
+      "title": "BEM VINDO",
+      "subtitle": "Interface",
+      "x": 700,
+      "y": 100
+    },
+    {
+      "id": "node_7",
+      "type": "page",
+      "title": "CONFIGURAÇÔES",
+      "subtitle": "Interface",
+      "x": 100,
+      "y": 300
+    },
+    {
+      "id": "node_8",
+      "type": "page",
+      "title": "TRABALHOS",
+      "subtitle": "Interface",
+      "x": 300,
+      "y": 300
+    }
+  ],
+  "connections": [],
+  "metadata": {
+    "created": "2025-09-02T17:32:49.330Z",
+    "nodeCount": 6,
+    "connectionCount": 0
+  }
+}
