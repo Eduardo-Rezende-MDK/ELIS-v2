@@ -1,0 +1,750 @@
+{
+  "generated_at": "2025-09-02T21:57:46.205169",
+  "statistics": {
+    "total_errors": 14,
+    "errors_by_type": {
+      "syntax": 8,
+      "runtime": 6
+    },
+    "errors_by_severity": {
+      "low": 3,
+      "medium": 8,
+      "high": 3
+    },
+    "most_common_tags": {
+      "python": 12,
+      "syntax": 6,
+      "print": 3,
+      "parenteses": 3,
+      "indentacao": 3,
+      "if": 3,
+      "variable": 3,
+      "nameerror": 3,
+      "runtime": 3,
+      "import": 3
+    },
+    "average_resolution_time": 4.285714285714286,
+    "total_resolution_time": 60
+  },
+  "resolution_patterns": {
+    "syntax_low": {
+      "count": 3,
+      "common_first_steps": {
+        "Identificar onde o parênteses foi aberto": 3
+      },
+      "avg_resolution_time": 2.0,
+      "total_time": 6
+    },
+    "syntax_medium": {
+      "count": 5,
+      "common_first_steps": {
+        "Identificar bloco que precisa de indentação": 3,
+        "Identificar caracteres especiais no código": 2
+      },
+      "avg_resolution_time": 1.8,
+      "total_time": 9
+    },
+    "runtime_medium": {
+      "count": 3,
+      "common_first_steps": {
+        "Verificar se a variável foi declarada antes do uso": 3
+      },
+      "avg_resolution_time": 5.0,
+      "total_time": 15
+    },
+    "runtime_high": {
+      "count": 3,
+      "common_first_steps": {
+        "Verificar se o módulo está instalado: pip list | grep requests": 3
+      },
+      "avg_resolution_time": 10.0,
+      "total_time": 30
+    }
+  },
+  "recent_errors": [
+    {
+      "id": "ERR_20250902_215746_13",
+      "timestamp": "2025-09-02T21:57:46.200210",
+      "error_type": "runtime",
+      "error_message": "ModuleNotFoundError: No module named 'requests'",
+      "code_snippet": "import requests",
+      "file_path": "api.py",
+      "line_number": 1,
+      "cause_analysis": "Módulo requests não está instalado no ambiente Python",
+      "resolution_steps": [
+        "Verificar se o módulo está instalado: pip list | grep requests",
+        "Instalar o módulo: pip install requests",
+        "Verificar se está no ambiente virtual correto",
+        "Testar importação novamente"
+      ],
+      "fixed_code": "# Primeiro: pip install requests\nimport requests",
+      "tags": [
+        "python",
+        "import",
+        "pip",
+        "module",
+        "requests"
+      ],
+      "severity": "high",
+      "resolution_time_minutes": 10
+    },
+    {
+      "id": "ERR_20250902_215746_12",
+      "timestamp": "2025-09-02T21:57:46.199211",
+      "error_type": "runtime",
+      "error_message": "NameError: name 'variavel' is not defined",
+      "code_snippet": "print(variavel)",
+      "file_path": "variable.py",
+      "line_number": 1,
+      "cause_analysis": "Tentativa de usar variável que não foi declarada ou está fora do escopo",
+      "resolution_steps": [
+        "Verificar se a variável foi declarada antes do uso",
+        "Verificar se o nome da variável está correto (case-sensitive)",
+        "Declarar a variável com valor apropriado",
+        "Verificar escopo da variável"
+      ],
+      "fixed_code": "variavel = 'Hello'\nprint(variavel)",
+      "tags": [
+        "python",
+        "variable",
+        "nameerror",
+        "runtime"
+      ],
+      "severity": "medium",
+      "resolution_time_minutes": 5
+    },
+    {
+      "id": "ERR_20250902_215746_11",
+      "timestamp": "2025-09-02T21:57:46.198212",
+      "error_type": "syntax",
+      "error_message": "IndentationError: expected an indented block",
+      "code_snippet": "if True:\nprint('Indented')",
+      "file_path": "indent.py",
+      "line_number": 2,
+      "cause_analysis": "Código dentro do bloco if não está indentado corretamente",
+      "resolution_steps": [
+        "Identificar bloco que precisa de indentação",
+        "Adicionar 4 espaços ou 1 tab antes da linha",
+        "Verificar consistência de indentação no arquivo",
+        "Testar execução do código"
+      ],
+      "fixed_code": "if True:\n    print('Indented')",
+      "tags": [
+        "python",
+        "indentacao",
+        "if",
+        "syntax"
+      ],
+      "severity": "medium",
+      "resolution_time_minutes": 3
+    },
+    {
+      "id": "ERR_20250902_215746_10",
+      "timestamp": "2025-09-02T21:57:46.197213",
+      "error_type": "syntax",
+      "error_message": "SyntaxError: '(' was never closed",
+      "code_snippet": "print('Hello World'",
+      "file_path": "hello.py",
+      "line_number": 1,
+      "cause_analysis": "Parênteses de abertura não foi fechado na função print",
+      "resolution_steps": [
+        "Identificar onde o parênteses foi aberto",
+        "Adicionar parênteses de fechamento ')' no final",
+        "Verificar se há outros parênteses não fechados",
+        "Executar código para confirmar correção"
+      ],
+      "fixed_code": "print('Hello World')",
+      "tags": [
+        "python",
+        "print",
+        "parenteses",
+        "syntax"
+      ],
+      "severity": "low",
+      "resolution_time_minutes": 2
+    },
+    {
+      "id": "ERR_20250902_215649_9",
+      "timestamp": "2025-09-02T21:56:49.542111",
+      "error_type": "syntax",
+      "error_message": "SyntaxError: invalid character in identifier",
+      "code_snippet": "variável = 'test'  # caractere especial",
+      "file_path": "unicode.py",
+      "line_number": 1,
+      "cause_analysis": "",
+      "resolution_steps": [
+        "Identificar caracteres especiais no código",
+        "Substituir por caracteres ASCII padrão",
+        "Usar nomes de variáveis em inglês"
+      ],
+      "fixed_code": "",
+      "tags": [],
+      "severity": "medium",
+      "resolution_time_minutes": 0
+    },
+    {
+      "id": "ERR_20250902_215647_5",
+      "timestamp": "2025-09-02T21:56:47.671451",
+      "error_type": "syntax",
+      "error_message": "SyntaxError: '(' was never closed",
+      "code_snippet": "print('Hello World'",
+      "file_path": "hello.py",
+      "line_number": 1,
+      "cause_analysis": "Parênteses de abertura não foi fechado na função print",
+      "resolution_steps": [
+        "Identificar onde o parênteses foi aberto",
+        "Adicionar parênteses de fechamento ')' no final",
+        "Verificar se há outros parênteses não fechados",
+        "Executar código para confirmar correção"
+      ],
+      "fixed_code": "print('Hello World')",
+      "tags": [
+        "python",
+        "print",
+        "parenteses",
+        "syntax"
+      ],
+      "severity": "low",
+      "resolution_time_minutes": 2
+    },
+    {
+      "id": "ERR_20250902_215647_6",
+      "timestamp": "2025-09-02T21:56:47.671451",
+      "error_type": "syntax",
+      "error_message": "IndentationError: expected an indented block",
+      "code_snippet": "if True:\nprint('Indented')",
+      "file_path": "indent.py",
+      "line_number": 2,
+      "cause_analysis": "Código dentro do bloco if não está indentado corretamente",
+      "resolution_steps": [
+        "Identificar bloco que precisa de indentação",
+        "Adicionar 4 espaços ou 1 tab antes da linha",
+        "Verificar consistência de indentação no arquivo",
+        "Testar execução do código"
+      ],
+      "fixed_code": "if True:\n    print('Indented')",
+      "tags": [
+        "python",
+        "indentacao",
+        "if",
+        "syntax"
+      ],
+      "severity": "medium",
+      "resolution_time_minutes": 3
+    },
+    {
+      "id": "ERR_20250902_215647_7",
+      "timestamp": "2025-09-02T21:56:47.671451",
+      "error_type": "runtime",
+      "error_message": "NameError: name 'variavel' is not defined",
+      "code_snippet": "print(variavel)",
+      "file_path": "variable.py",
+      "line_number": 1,
+      "cause_analysis": "Tentativa de usar variável que não foi declarada ou está fora do escopo",
+      "resolution_steps": [
+        "Verificar se a variável foi declarada antes do uso",
+        "Verificar se o nome da variável está correto (case-sensitive)",
+        "Declarar a variável com valor apropriado",
+        "Verificar escopo da variável"
+      ],
+      "fixed_code": "variavel = 'Hello'\nprint(variavel)",
+      "tags": [
+        "python",
+        "variable",
+        "nameerror",
+        "runtime"
+      ],
+      "severity": "medium",
+      "resolution_time_minutes": 5
+    },
+    {
+      "id": "ERR_20250902_215647_8",
+      "timestamp": "2025-09-02T21:56:47.671451",
+      "error_type": "runtime",
+      "error_message": "ModuleNotFoundError: No module named 'requests'",
+      "code_snippet": "import requests",
+      "file_path": "api.py",
+      "line_number": 1,
+      "cause_analysis": "Módulo requests não está instalado no ambiente Python",
+      "resolution_steps": [
+        "Verificar se o módulo está instalado: pip list | grep requests",
+        "Instalar o módulo: pip install requests",
+        "Verificar se está no ambiente virtual correto",
+        "Testar importação novamente"
+      ],
+      "fixed_code": "# Primeiro: pip install requests\nimport requests",
+      "tags": [
+        "python",
+        "import",
+        "pip",
+        "module",
+        "requests"
+      ],
+      "severity": "high",
+      "resolution_time_minutes": 10
+    },
+    {
+      "id": "ERR_20250902_215602_4",
+      "timestamp": "2025-09-02T21:56:02.120583",
+      "error_type": "syntax",
+      "error_message": "SyntaxError: invalid character in identifier",
+      "code_snippet": "variável = 'test'  # caractere especial",
+      "file_path": "unicode.py",
+      "line_number": 1,
+      "cause_analysis": "",
+      "resolution_steps": [
+        "Identificar caracteres especiais no código",
+        "Substituir por caracteres ASCII padrão",
+        "Usar nomes de variáveis em inglês"
+      ],
+      "fixed_code": "",
+      "tags": [],
+      "severity": "medium",
+      "resolution_time_minutes": 0
+    },
+    {
+      "id": "ERR_20250902_215600_0",
+      "timestamp": "2025-09-02T21:56:00.307627",
+      "error_type": "syntax",
+      "error_message": "SyntaxError: '(' was never closed",
+      "code_snippet": "print('Hello World'",
+      "file_path": "hello.py",
+      "line_number": 1,
+      "cause_analysis": "Parênteses de abertura não foi fechado na função print",
+      "resolution_steps": [
+        "Identificar onde o parênteses foi aberto",
+        "Adicionar parênteses de fechamento ')' no final",
+        "Verificar se há outros parênteses não fechados",
+        "Executar código para confirmar correção"
+      ],
+      "fixed_code": "print('Hello World')",
+      "tags": [
+        "python",
+        "print",
+        "parenteses",
+        "syntax"
+      ],
+      "severity": "low",
+      "resolution_time_minutes": 2
+    },
+    {
+      "id": "ERR_20250902_215600_1",
+      "timestamp": "2025-09-02T21:56:00.307627",
+      "error_type": "syntax",
+      "error_message": "IndentationError: expected an indented block",
+      "code_snippet": "if True:\nprint('Indented')",
+      "file_path": "indent.py",
+      "line_number": 2,
+      "cause_analysis": "Código dentro do bloco if não está indentado corretamente",
+      "resolution_steps": [
+        "Identificar bloco que precisa de indentação",
+        "Adicionar 4 espaços ou 1 tab antes da linha",
+        "Verificar consistência de indentação no arquivo",
+        "Testar execução do código"
+      ],
+      "fixed_code": "if True:\n    print('Indented')",
+      "tags": [
+        "python",
+        "indentacao",
+        "if",
+        "syntax"
+      ],
+      "severity": "medium",
+      "resolution_time_minutes": 3
+    },
+    {
+      "id": "ERR_20250902_215600_2",
+      "timestamp": "2025-09-02T21:56:00.307627",
+      "error_type": "runtime",
+      "error_message": "NameError: name 'variavel' is not defined",
+      "code_snippet": "print(variavel)",
+      "file_path": "variable.py",
+      "line_number": 1,
+      "cause_analysis": "Tentativa de usar variável que não foi declarada ou está fora do escopo",
+      "resolution_steps": [
+        "Verificar se a variável foi declarada antes do uso",
+        "Verificar se o nome da variável está correto (case-sensitive)",
+        "Declarar a variável com valor apropriado",
+        "Verificar escopo da variável"
+      ],
+      "fixed_code": "variavel = 'Hello'\nprint(variavel)",
+      "tags": [
+        "python",
+        "variable",
+        "nameerror",
+        "runtime"
+      ],
+      "severity": "medium",
+      "resolution_time_minutes": 5
+    },
+    {
+      "id": "ERR_20250902_215600_3",
+      "timestamp": "2025-09-02T21:56:00.307627",
+      "error_type": "runtime",
+      "error_message": "ModuleNotFoundError: No module named 'requests'",
+      "code_snippet": "import requests",
+      "file_path": "api.py",
+      "line_number": 1,
+      "cause_analysis": "Módulo requests não está instalado no ambiente Python",
+      "resolution_steps": [
+        "Verificar se o módulo está instalado: pip list | grep requests",
+        "Instalar o módulo: pip install requests",
+        "Verificar se está no ambiente virtual correto",
+        "Testar importação novamente"
+      ],
+      "fixed_code": "# Primeiro: pip install requests\nimport requests",
+      "tags": [
+        "python",
+        "import",
+        "pip",
+        "module",
+        "requests"
+      ],
+      "severity": "high",
+      "resolution_time_minutes": 10
+    }
+  ],
+  "all_errors": [
+    {
+      "id": "ERR_20250902_215600_0",
+      "timestamp": "2025-09-02T21:56:00.307627",
+      "error_type": "syntax",
+      "error_message": "SyntaxError: '(' was never closed",
+      "code_snippet": "print('Hello World'",
+      "file_path": "hello.py",
+      "line_number": 1,
+      "cause_analysis": "Parênteses de abertura não foi fechado na função print",
+      "resolution_steps": [
+        "Identificar onde o parênteses foi aberto",
+        "Adicionar parênteses de fechamento ')' no final",
+        "Verificar se há outros parênteses não fechados",
+        "Executar código para confirmar correção"
+      ],
+      "fixed_code": "print('Hello World')",
+      "tags": [
+        "python",
+        "print",
+        "parenteses",
+        "syntax"
+      ],
+      "severity": "low",
+      "resolution_time_minutes": 2
+    },
+    {
+      "id": "ERR_20250902_215600_1",
+      "timestamp": "2025-09-02T21:56:00.307627",
+      "error_type": "syntax",
+      "error_message": "IndentationError: expected an indented block",
+      "code_snippet": "if True:\nprint('Indented')",
+      "file_path": "indent.py",
+      "line_number": 2,
+      "cause_analysis": "Código dentro do bloco if não está indentado corretamente",
+      "resolution_steps": [
+        "Identificar bloco que precisa de indentação",
+        "Adicionar 4 espaços ou 1 tab antes da linha",
+        "Verificar consistência de indentação no arquivo",
+        "Testar execução do código"
+      ],
+      "fixed_code": "if True:\n    print('Indented')",
+      "tags": [
+        "python",
+        "indentacao",
+        "if",
+        "syntax"
+      ],
+      "severity": "medium",
+      "resolution_time_minutes": 3
+    },
+    {
+      "id": "ERR_20250902_215600_2",
+      "timestamp": "2025-09-02T21:56:00.307627",
+      "error_type": "runtime",
+      "error_message": "NameError: name 'variavel' is not defined",
+      "code_snippet": "print(variavel)",
+      "file_path": "variable.py",
+      "line_number": 1,
+      "cause_analysis": "Tentativa de usar variável que não foi declarada ou está fora do escopo",
+      "resolution_steps": [
+        "Verificar se a variável foi declarada antes do uso",
+        "Verificar se o nome da variável está correto (case-sensitive)",
+        "Declarar a variável com valor apropriado",
+        "Verificar escopo da variável"
+      ],
+      "fixed_code": "variavel = 'Hello'\nprint(variavel)",
+      "tags": [
+        "python",
+        "variable",
+        "nameerror",
+        "runtime"
+      ],
+      "severity": "medium",
+      "resolution_time_minutes": 5
+    },
+    {
+      "id": "ERR_20250902_215600_3",
+      "timestamp": "2025-09-02T21:56:00.307627",
+      "error_type": "runtime",
+      "error_message": "ModuleNotFoundError: No module named 'requests'",
+      "code_snippet": "import requests",
+      "file_path": "api.py",
+      "line_number": 1,
+      "cause_analysis": "Módulo requests não está instalado no ambiente Python",
+      "resolution_steps": [
+        "Verificar se o módulo está instalado: pip list | grep requests",
+        "Instalar o módulo: pip install requests",
+        "Verificar se está no ambiente virtual correto",
+        "Testar importação novamente"
+      ],
+      "fixed_code": "# Primeiro: pip install requests\nimport requests",
+      "tags": [
+        "python",
+        "import",
+        "pip",
+        "module",
+        "requests"
+      ],
+      "severity": "high",
+      "resolution_time_minutes": 10
+    },
+    {
+      "id": "ERR_20250902_215602_4",
+      "timestamp": "2025-09-02T21:56:02.120583",
+      "error_type": "syntax",
+      "error_message": "SyntaxError: invalid character in identifier",
+      "code_snippet": "variável = 'test'  # caractere especial",
+      "file_path": "unicode.py",
+      "line_number": 1,
+      "cause_analysis": "",
+      "resolution_steps": [
+        "Identificar caracteres especiais no código",
+        "Substituir por caracteres ASCII padrão",
+        "Usar nomes de variáveis em inglês"
+      ],
+      "fixed_code": "",
+      "tags": [],
+      "severity": "medium",
+      "resolution_time_minutes": 0
+    },
+    {
+      "id": "ERR_20250902_215647_5",
+      "timestamp": "2025-09-02T21:56:47.671451",
+      "error_type": "syntax",
+      "error_message": "SyntaxError: '(' was never closed",
+      "code_snippet": "print('Hello World'",
+      "file_path": "hello.py",
+      "line_number": 1,
+      "cause_analysis": "Parênteses de abertura não foi fechado na função print",
+      "resolution_steps": [
+        "Identificar onde o parênteses foi aberto",
+        "Adicionar parênteses de fechamento ')' no final",
+        "Verificar se há outros parênteses não fechados",
+        "Executar código para confirmar correção"
+      ],
+      "fixed_code": "print('Hello World')",
+      "tags": [
+        "python",
+        "print",
+        "parenteses",
+        "syntax"
+      ],
+      "severity": "low",
+      "resolution_time_minutes": 2
+    },
+    {
+      "id": "ERR_20250902_215647_6",
+      "timestamp": "2025-09-02T21:56:47.671451",
+      "error_type": "syntax",
+      "error_message": "IndentationError: expected an indented block",
+      "code_snippet": "if True:\nprint('Indented')",
+      "file_path": "indent.py",
+      "line_number": 2,
+      "cause_analysis": "Código dentro do bloco if não está indentado corretamente",
+      "resolution_steps": [
+        "Identificar bloco que precisa de indentação",
+        "Adicionar 4 espaços ou 1 tab antes da linha",
+        "Verificar consistência de indentação no arquivo",
+        "Testar execução do código"
+      ],
+      "fixed_code": "if True:\n    print('Indented')",
+      "tags": [
+        "python",
+        "indentacao",
+        "if",
+        "syntax"
+      ],
+      "severity": "medium",
+      "resolution_time_minutes": 3
+    },
+    {
+      "id": "ERR_20250902_215647_7",
+      "timestamp": "2025-09-02T21:56:47.671451",
+      "error_type": "runtime",
+      "error_message": "NameError: name 'variavel' is not defined",
+      "code_snippet": "print(variavel)",
+      "file_path": "variable.py",
+      "line_number": 1,
+      "cause_analysis": "Tentativa de usar variável que não foi declarada ou está fora do escopo",
+      "resolution_steps": [
+        "Verificar se a variável foi declarada antes do uso",
+        "Verificar se o nome da variável está correto (case-sensitive)",
+        "Declarar a variável com valor apropriado",
+        "Verificar escopo da variável"
+      ],
+      "fixed_code": "variavel = 'Hello'\nprint(variavel)",
+      "tags": [
+        "python",
+        "variable",
+        "nameerror",
+        "runtime"
+      ],
+      "severity": "medium",
+      "resolution_time_minutes": 5
+    },
+    {
+      "id": "ERR_20250902_215647_8",
+      "timestamp": "2025-09-02T21:56:47.671451",
+      "error_type": "runtime",
+      "error_message": "ModuleNotFoundError: No module named 'requests'",
+      "code_snippet": "import requests",
+      "file_path": "api.py",
+      "line_number": 1,
+      "cause_analysis": "Módulo requests não está instalado no ambiente Python",
+      "resolution_steps": [
+        "Verificar se o módulo está instalado: pip list | grep requests",
+        "Instalar o módulo: pip install requests",
+        "Verificar se está no ambiente virtual correto",
+        "Testar importação novamente"
+      ],
+      "fixed_code": "# Primeiro: pip install requests\nimport requests",
+      "tags": [
+        "python",
+        "import",
+        "pip",
+        "module",
+        "requests"
+      ],
+      "severity": "high",
+      "resolution_time_minutes": 10
+    },
+    {
+      "id": "ERR_20250902_215649_9",
+      "timestamp": "2025-09-02T21:56:49.542111",
+      "error_type": "syntax",
+      "error_message": "SyntaxError: invalid character in identifier",
+      "code_snippet": "variável = 'test'  # caractere especial",
+      "file_path": "unicode.py",
+      "line_number": 1,
+      "cause_analysis": "",
+      "resolution_steps": [
+        "Identificar caracteres especiais no código",
+        "Substituir por caracteres ASCII padrão",
+        "Usar nomes de variáveis em inglês"
+      ],
+      "fixed_code": "",
+      "tags": [],
+      "severity": "medium",
+      "resolution_time_minutes": 0
+    },
+    {
+      "id": "ERR_20250902_215746_10",
+      "timestamp": "2025-09-02T21:57:46.197213",
+      "error_type": "syntax",
+      "error_message": "SyntaxError: '(' was never closed",
+      "code_snippet": "print('Hello World'",
+      "file_path": "hello.py",
+      "line_number": 1,
+      "cause_analysis": "Parênteses de abertura não foi fechado na função print",
+      "resolution_steps": [
+        "Identificar onde o parênteses foi aberto",
+        "Adicionar parênteses de fechamento ')' no final",
+        "Verificar se há outros parênteses não fechados",
+        "Executar código para confirmar correção"
+      ],
+      "fixed_code": "print('Hello World')",
+      "tags": [
+        "python",
+        "print",
+        "parenteses",
+        "syntax"
+      ],
+      "severity": "low",
+      "resolution_time_minutes": 2
+    },
+    {
+      "id": "ERR_20250902_215746_11",
+      "timestamp": "2025-09-02T21:57:46.198212",
+      "error_type": "syntax",
+      "error_message": "IndentationError: expected an indented block",
+      "code_snippet": "if True:\nprint('Indented')",
+      "file_path": "indent.py",
+      "line_number": 2,
+      "cause_analysis": "Código dentro do bloco if não está indentado corretamente",
+      "resolution_steps": [
+        "Identificar bloco que precisa de indentação",
+        "Adicionar 4 espaços ou 1 tab antes da linha",
+        "Verificar consistência de indentação no arquivo",
+        "Testar execução do código"
+      ],
+      "fixed_code": "if True:\n    print('Indented')",
+      "tags": [
+        "python",
+        "indentacao",
+        "if",
+        "syntax"
+      ],
+      "severity": "medium",
+      "resolution_time_minutes": 3
+    },
+    {
+      "id": "ERR_20250902_215746_12",
+      "timestamp": "2025-09-02T21:57:46.199211",
+      "error_type": "runtime",
+      "error_message": "NameError: name 'variavel' is not defined",
+      "code_snippet": "print(variavel)",
+      "file_path": "variable.py",
+      "line_number": 1,
+      "cause_analysis": "Tentativa de usar variável que não foi declarada ou está fora do escopo",
+      "resolution_steps": [
+        "Verificar se a variável foi declarada antes do uso",
+        "Verificar se o nome da variável está correto (case-sensitive)",
+        "Declarar a variável com valor apropriado",
+        "Verificar escopo da variável"
+      ],
+      "fixed_code": "variavel = 'Hello'\nprint(variavel)",
+      "tags": [
+        "python",
+        "variable",
+        "nameerror",
+        "runtime"
+      ],
+      "severity": "medium",
+      "resolution_time_minutes": 5
+    },
+    {
+      "id": "ERR_20250902_215746_13",
+      "timestamp": "2025-09-02T21:57:46.200210",
+      "error_type": "runtime",
+      "error_message": "ModuleNotFoundError: No module named 'requests'",
+      "code_snippet": "import requests",
+      "file_path": "api.py",
+      "line_number": 1,
+      "cause_analysis": "Módulo requests não está instalado no ambiente Python",
+      "resolution_steps": [
+        "Verificar se o módulo está instalado: pip list | grep requests",
+        "Instalar o módulo: pip install requests",
+        "Verificar se está no ambiente virtual correto",
+        "Testar importação novamente"
+      ],
+      "fixed_code": "# Primeiro: pip install requests\nimport requests",
+      "tags": [
+        "python",
+        "import",
+        "pip",
+        "module",
+        "requests"
+      ],
+      "severity": "high",
+      "resolution_time_minutes": 10
+    }
+  ]
+}

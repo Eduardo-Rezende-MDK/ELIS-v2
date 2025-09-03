@@ -9,7 +9,7 @@ import json
 import sys
 import asyncio
 from typing import Any, Dict, List
-from mcp_rules import live, iarules
+from mcp_rules import live, iarules, IA_MEDIADOR, get_context
 
 class MCPServer:
     """Servidor MCP usando protocolo stdio"""
@@ -31,6 +31,38 @@ class MCPServer:
                 "inputSchema": {
                     "type": "object",
                     "properties": {},
+                    "required": []
+                }
+            },
+            "IA_MEDIADOR": {
+                "name": "IA_MEDIADOR",
+                "description": "Otimiza prompts do desenvolvedor conforme engenharia de prompts",
+                "inputSchema": {
+                    "type": "object",
+                    "properties": {
+                        "prompt_dev": {
+                            "type": "string",
+                            "description": "Prompt original do desenvolvedor para otimização"
+                        }
+                    },
+                    "required": ["prompt_dev"]
+                }
+            },
+            "get_context": {
+                "name": "get_context",
+                "description": "Retorna contexto completo do sistema com regras, histórico e soluções",
+                "inputSchema": {
+                    "type": "object",
+                    "properties": {
+                        "query": {
+                            "type": "string",
+                            "description": "Query ou contexto da IA (opcional)"
+                        },
+                        "session_id": {
+                            "type": "string",
+                            "description": "ID da sessão atual (opcional)"
+                        }
+                    },
                     "required": []
                 }
             }
@@ -122,6 +154,71 @@ class MCPServer:
                     "error": {
                         "code": -32603,
                         "message": f"Erro ao executar iarules: {str(e)}"
+                    }
+                }
+        elif tool_name == "IA_MEDIADOR":
+            try:
+                arguments = params.get("arguments", {})
+                prompt_dev = arguments.get("prompt_dev", "")
+                
+                if not prompt_dev:
+                    response = {
+                        "jsonrpc": "2.0",
+                        "id": request.get("id"),
+                        "error": {
+                            "code": -32602,
+                            "message": "Parâmetro 'prompt_dev' é obrigatório"
+                        }
+                    }
+                else:
+                    result = IA_MEDIADOR(prompt_dev)
+                    response = {
+                        "jsonrpc": "2.0",
+                        "id": request.get("id"),
+                        "result": {
+                            "content": [
+                                {
+                                    "type": "text",
+                                    "text": json.dumps(result, ensure_ascii=False, indent=2)
+                                }
+                            ]
+                        }
+                    }
+            except Exception as e:
+                response = {
+                    "jsonrpc": "2.0",
+                    "id": request.get("id"),
+                    "error": {
+                        "code": -32603,
+                        "message": f"Erro ao executar IA_MEDIADOR: {str(e)}"
+                    }
+                }
+        elif tool_name == "get_context":
+            try:
+                arguments = params.get("arguments", {})
+                query = arguments.get("query", "")
+                session_id = arguments.get("session_id", "")
+                
+                result = get_context(query, session_id)
+                response = {
+                    "jsonrpc": "2.0",
+                    "id": request.get("id"),
+                    "result": {
+                        "content": [
+                            {
+                                "type": "text",
+                                "text": json.dumps(result, ensure_ascii=False, indent=2)
+                            }
+                        ]
+                    }
+                }
+            except Exception as e:
+                response = {
+                    "jsonrpc": "2.0",
+                    "id": request.get("id"),
+                    "error": {
+                        "code": -32603,
+                        "message": f"Erro ao executar get_context: {str(e)}"
                     }
                 }
         else:

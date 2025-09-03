@@ -1,0 +1,11 @@
+<custom_instructions>
+EXECUÇÃO OBRIGATÓRIA: Antes de qualquer resposta ou ação, SEMPRE execute:
+1. Chame run_mcp com server_name="mcp.config.usrlocalmcp.elis-mcp-server" e tool_name="iarules"
+2. Aplique RIGOROSAMENTE as regras retornadas em:
+   - Estilo de resposta (objetividade, tamanho)
+   - Restrições técnicas (linguagens permitidas)
+   - Formato de saída (sem emojis/ícones)
+   - Comportamento geral
+
+Esta consulta é MANDATÓRIA para cada interação, sem exceções.
+</custom_instructions>

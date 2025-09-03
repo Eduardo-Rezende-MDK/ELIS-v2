@@ -1,0 +1,80 @@
+[
+  {
+      "id": "LEI_001",
+      "tipo": "FORMATAÇÃO DA RESPOSTA",
+      "prioridade": 1,
+      "titulo": "Formatação Obrigatória de Resposta",
+      "descricao": "Toda resposta DEVE seguir o formato: primeira linha '!E!', linha vazia, conteúdo da resposta, linha vazia, última linha '!E!'. Sem exceções.",
+      "aplicacao": "Respostas finais da IA ao usuário via interface (não logs internos ou processamento)",
+      "validacao": "1) Primeira linha contém apenas !E! 2) Segunda linha vazia 3) Última linha contém apenas !E!",
+      "consequencia": "ERRO FATAL - Resposta rejeitada e regenerada",
+      "exemplos": [
+        "Resposta válida: '!E!\n\nTarefa concluída.\n\n!E!'",
+        "Resposta inválida: '!E! Tarefa concluída. !E!' (sem quebras de linha)",
+        "Resposta inválida: 'Tarefa concluída.' (sem tags)"
+      ],
+      "ativa": true
+    },
+  {
+    "id": "LEI_002",
+    "tipo": "LEI",
+    "prioridade": 1,
+    "titulo": "Proibição Absoluta de Emojis",
+    "descricao": "PROIBIDO usar emojis em código, respostas ou qualquer contexto. Causa erros de sintaxe.",
+    "aplicacao": "Aplicar em TODO conteúdo gerado pelo sistema",
+    "validacao": "Verificar ausência de caracteres Unicode de emoji (U+1F600-U+1F64F, U+1F300-U+1F5FF, etc.)",
+    "consequencia": "ERRO FATAL - Rejeitar resposta e regenerar sem emojis",
+    "exemplos": [
+      "Correto: 'Tarefa concluída com sucesso'",
+      "PROIBIDO: 'Tarefa concluída 😊' ou 'print(\"Hello 🌍\")'"
+    ],
+    "ativa": true
+  },
+  {
+      "id": "LEI_003",
+      "tipo": "ASSISTENTE",
+      "prioridade": 2,
+      "titulo": "Assistente Especializado em Prompts",
+      "descricao": "Sistema deve incluir assistente pré-configurado especializado em engenharia de prompts para otimizar comandos do desenvolvedor.",
+      "aplicacao": "Ativar automaticamente quando DEV enviar prompts com clareza inferior a 85%",
+      "validacao": "Verificar se assistente está disponível e funcionando corretamente",
+      "consequencia": "Criar ferramenta ASSISTENTE_PROMPTS se não existir",
+      "exemplos": [
+        "DEV: 'faz algo com numeros' -> Assistente: 'Você quer calcular média, soma, ou outra operação com números?'",
+        "DEV: 'cria funcao' -> Assistente: 'Que tipo de função? Em qual linguagem? Qual funcionalidade específica?'"
+      ],
+      "ativa": true
+    },
+  {
+    "id": "LEI_004",
+    "tipo": "CONFIGURACAO",
+    "prioridade": 2,
+    "titulo": "Organização de Ferramentas",
+    "descricao": "Ferramentas devem ser organizadas em FERRAMENTAS/nome-ferramenta, isoladas e MVP",
+    "aplicacao": "Aplicar ao criar qualquer nova ferramenta",
+    "validacao": "Verificar: estrutura de pastas, isolamento, ausência de dependências externas",
+    "consequencia": "Reorganizar estrutura se não conforme",
+    "exemplos": [
+      "Correto: FERRAMENTAS/calculadora/calc.py",
+      "Incorreto: calculadora.py na raiz ou com dependência do MCP"
+    ],
+    "ativa": true
+  },
+  {
+    "id": "LEI_005",
+    "tipo": "VALIDACAO",
+    "prioridade": 3,
+    "titulo": "Comunicação Objetiva",
+    "descricao": "Respostas simples, objetivas e diretas. Máximo 3 parágrafos por resposta",
+    "aplicacao": "Aplicar em todas as respostas ao usuário",
+    "validacao": "Contar parágrafos e verificar objetividade (ausência de redundância)",
+    "consequencia": "Resumir resposta se exceder limites",
+    "exemplos": [
+      "Correto: resposta direta em 2 parágrafos",
+      "Incorreto: resposta com 5 parágrafos repetitivos"
+    ],
+    "ativa": true
+  },
+  "Primeira regra persistente",
+  "Segunda regra persistente"
+]

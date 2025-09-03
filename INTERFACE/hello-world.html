@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello World - Vuesax</title>
+    
+    <!-- Vue.js 2 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    
+    <!-- Vuesax CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/vuesax@3.12.2/dist/vuesax.css" rel="stylesheet">
+    
+    <!-- Vuesax JS -->
+    <script src="https://cdn.jsdelivr.net/npm/vuesax@3.12.2/dist/vuesax.umd.js"></script>
+    
+    <!-- Boxicons para ícones -->
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            max-width: 600px;
+            width: 100%;
+        }
+        
+        .welcome-card {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .demo-section {
+            margin-bottom: 30px;
+        }
+        
+        .demo-title {
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .input-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        
+        .notification-demo {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="app" class="container">
+        <!-- Welcome Card -->
+        <div class="welcome-card">
+            <vs-card>
+                <template #title>
+                    <h3>🎉 Hello World com Vuesax!</h3>
+                </template>
+                <template #text>
+                    <p>Bem-vindo ao framework de componentes Vue.js mais único e elegante!</p>
+                    <p><strong>Vuesax v4.0.1-alpha.25</strong> - Framework criado do zero com design próprio</p>
+                </template>
+            </vs-card>
+        </div>
+        
+        <!-- Botões Demo -->
+        <div class="demo-section">
+            <h4 class="demo-title">🔘 Botões Vuesax</h4>
+            <div class="button-group">
+                <vs-button>Botão Padrão</vs-button>
+                <vs-button color="success">Sucesso</vs-button>
+                <vs-button color="danger">Perigo</vs-button>
+                <vs-button color="warn">Aviso</vs-button>
+                <vs-button color="dark">Escuro</vs-button>
+            </div>
+            
+            <div class="button-group">
+                <vs-button flat>Flat</vs-button>
+                <vs-button border>Border</vs-button>
+                <vs-button gradient>Gradient</vs-button>
+                <vs-button relief>Relief</vs-button>
+                <vs-button shadow>Shadow</vs-button>
+            </div>
+        </div>
+        
+        <!-- Inputs Demo -->
+        <div class="demo-section">
+            <h4 class="demo-title">📝 Inputs Vuesax</h4>
+            <vs-card>
+                <div class="input-group">
+                    <vs-input 
+                        v-model="nome" 
+                        label="Seu Nome" 
+                        placeholder="Digite seu nome">
+                        <template #icon>
+                            <i class='bx bx-user'></i>
+                        </template>
+                    </vs-input>
+                    
+                    <vs-input 
+                        v-model="email" 
+                        label="Email" 
+                        placeholder="seu@email.com" 
+                        type="email">
+                        <template #icon>
+                            <i class='bx bx-envelope'></i>
+                        </template>
+                    </vs-input>
+                </div>
+                
+                <div class="input-group">
+                    <vs-select 
+                        v-model="framework" 
+                        label="Framework Favorito" 
+                        placeholder="Escolha um framework">
+                        <vs-option label="Vue.js" value="vue">Vue.js</vs-option>
+                        <vs-option label="React" value="react">React</vs-option>
+                        <vs-option label="Angular" value="angular">Angular</vs-option>
+                        <vs-option label="Svelte" value="svelte">Svelte</vs-option>
+                    </vs-select>
+                </div>
+                
+                <div style="text-align: center; margin-top: 20px;">
+                    <vs-button 
+                        @click="mostrarInfo" 
+                        gradient 
+                        color="success"
+                        :disabled="!nome || !email">
+                        <i class='bx bx-check'></i>
+                        Mostrar Informações
+                    </vs-button>
+                </div>
+            </vs-card>
+        </div>
+        
+        <!-- Switches e Checkboxes -->
+        <div class="demo-section">
+            <h4 class="demo-title">🎛️ Controles Vuesax</h4>
+            <vs-card>
+                <div style="display: flex; gap: 30px; justify-content: center; flex-wrap: wrap;">
+                    <div>
+                        <p><strong>Switches:</strong></p>
+                        <vs-switch v-model="switch1" color="success">
+                            <template #on>ON</template>
+                            <template #off>OFF</template>
+                        </vs-switch>
+                        <br><br>
+                        <vs-switch v-model="switch2" color="danger" square>
+                            <template #on>
+                                <i class='bx bx-check'></i>
+                            </template>
+                            <template #off>
+                                <i class='bx bx-x'></i>
+                            </template>
+                        </vs-switch>
+                    </div>
+                    
+                    <div>
+                        <p><strong>Checkboxes:</strong></p>
+                        <vs-checkbox v-model="checkbox1" color="success">
+                            Aceito os termos
+                        </vs-checkbox>
+                        <br>
+                        <vs-checkbox v-model="checkbox2" color="primary">
+                            Receber notificações
+                        </vs-checkbox>
+                    </div>
+                </div>
+            </vs-card>
+        </div>
+        
+        <!-- Notificações Demo -->
+        <div class="demo-section">
+            <h4 class="demo-title">🔔 Notificações Vuesax</h4>
+            <div class="notification-demo">
+                <div class="button-group">
+                    <vs-button @click="notificacaoSucesso" color="success">
+                        <i class='bx bx-check-circle'></i>
+                        Sucesso
+                    </vs-button>
+                    
+                    <vs-button @click="notificacaoAviso" color="warn">
+                        <i class='bx bx-error-circle'></i>
+                        Aviso
+                    </vs-button>
+                    
+                    <vs-button @click="notificacaoErro" color="danger">
+                        <i class='bx bx-x-circle'></i>
+                        Erro
+                    </vs-button>
+                    
+                    <vs-button @click="notificacaoInfo" color="primary">
+                        <i class='bx bx-info-circle'></i>
+                        Info
+                    </vs-button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Avatar Demo -->
+        <div class="demo-section">
+            <h4 class="demo-title">👤 Avatares Vuesax</h4>
+            <vs-card>
+                <div style="display: flex; gap: 20px; justify-content: center; align-items: center; flex-wrap: wrap;">
+                    <vs-avatar>
+                        <i class='bx bx-user'></i>
+                    </vs-avatar>
+                    
+                    <vs-avatar color="success">
+                        <i class='bx bx-check'></i>
+                    </vs-avatar>
+                    
+                    <vs-avatar color="danger" size="60">
+                        <i class='bx bx-heart'></i>
+                    </vs-avatar>
+                    
+                    <vs-avatar color="warn" square>
+                        <i class='bx bx-star'></i>
+                    </vs-avatar>
+                    
+                    <vs-avatar>
+                        <template #text>
+                            VS
+                        </template>
+                    </vs-avatar>
+                </div>
+            </vs-card>
+        </div>
+        
+        <!-- Informações do Usuário -->
+        <div v-if="mostrarDados" class="demo-section">
+            <vs-card>
+                <template #title>
+                    <h3>📋 Suas Informações</h3>
+                </template>
+                <template #text>
+                    <p><strong>Nome:</strong> {{ nome }}</p>
+                    <p><strong>Email:</strong> {{ email }}</p>
+                    <p><strong>Framework:</strong> {{ framework || 'Não selecionado' }}</p>
+                    <p><strong>Termos aceitos:</strong> {{ checkbox1 ? 'Sim' : 'Não' }}</p>
+                    <p><strong>Notificações:</strong> {{ checkbox2 ? 'Ativadas' : 'Desativadas' }}</p>
+                </template>
+            </vs-card>
+        </div>
+    </div>
+    
+    <script>
+        // Inicializar Vuesax
+        Vue.use(Vuesax);
+        
+        new Vue({
+            el: '#app',
+            data: {
+                nome: '',
+                email: '',
+                framework: '',
+                switch1: false,
+                switch2: true,
+                checkbox1: false,
+                checkbox2: true,
+                mostrarDados: false
+            },
+            methods: {
+                mostrarInfo() {
+                    this.mostrarDados = true;
+                    this.$vs.notification({
+                        title: 'Informações Atualizadas!',
+                        text: `Olá ${this.nome}! Suas informações foram exibidas abaixo.`,
+                        color: 'success',
+                        position: 'top-right'
+                    });
+                },
+                
+                notificacaoSucesso() {
+                    this.$vs.notification({
+                        title: 'Sucesso!',
+                        text: 'Esta é uma notificação de sucesso com Vuesax',
+                        color: 'success',
+                        position: 'top-right'
+                    });
+                },
+                
+                notificacaoAviso() {
+                    this.$vs.notification({
+                        title: 'Atenção!',
+                        text: 'Esta é uma notificação de aviso',
+                        color: 'warn',
+                        position: 'top-right'
+                    });
+                },
+                
+                notificacaoErro() {
+                    this.$vs.notification({
+                        title: 'Erro!',
+                        text: 'Esta é uma notificação de erro',
+                        color: 'danger',
+                        position: 'top-right'
+                    });
+                },
+                
+                notificacaoInfo() {
+                    this.$vs.notification({
+                        title: 'Informação',
+                        text: 'Vuesax é incrível para criar interfaces únicas!',
+                        color: 'primary',
+                        position: 'top-right'
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+</html>

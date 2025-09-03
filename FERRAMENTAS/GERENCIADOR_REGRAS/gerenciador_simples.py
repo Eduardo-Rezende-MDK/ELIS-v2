@@ -11,15 +11,19 @@ from pathlib import Path
 
 class GerenciadorRegras:
     def __init__(self):
-        self.arquivo_regras = Path(__file__).parent / "regras_persistentes.json"
+        self.arquivo_regras = Path(__file__).parent / "regras_refatoradas.json"
         self.regras = self._carregar_regras()
     
     def _carregar_regras(self):
-        """Carrega regras do arquivo JSON"""
+        """Carrega regras do arquivo JSON refatorado"""
         if self.arquivo_regras.exists():
             try:
                 with open(self.arquivo_regras, 'r', encoding='utf-8') as f:
-                    return json.load(f)
+                    data = json.load(f)
+                    # Extrair apenas as regras ativas do formato refatorado
+                    if isinstance(data, dict) and 'regras' in data:
+                        return [regra for regra in data['regras'] if regra.get('ativa', True)]
+                    return data
             except:
                 return []
         return []
@@ -36,7 +40,16 @@ class GerenciadorRegras:
         
         resultado = "=== REGRAS ATUAIS ===\n"
         for i, regra in enumerate(self.regras, 1):
-            resultado += f"{i}. {regra}\n"
+            if isinstance(regra, dict):
+                # Formato refatorado
+                titulo = regra.get('titulo', 'Regra sem título')
+                descricao = regra.get('descricao', '')
+                aplicacao = regra.get('aplicacao', '')
+                validacao = regra.get('validacao', '')
+                resultado += f"{i}. {titulo}: {descricao} | Aplicação: {aplicacao} | Validação: {validacao}\n"
+            else:
+                # Formato antigo (string)
+                resultado += f"{i}. {regra}\n"
         return resultado.strip()
     
     def add_regra(self, nova_regra):
